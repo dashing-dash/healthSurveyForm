@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f4f9; padding: 15px; margin: 0; display: flex; justify-content: center; }
+    .survey-container { max-width: 680px; width: 100%; background: white; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); padding: 25px 20px; box-sizing: border-box; }
+    h2 { color: #0b57d0; margin: 0 0 5px 0; font-size: 22px; text-align: center; }
+    h3 { font-size: 14px; font-weight: normal; text-align: center; color: #5e5e5e; margin: 0 0 20px 0; line-height: 1.4; }
+    .section-banner { font-size: 16px; font-weight: bold; color: #0b57d0; margin: 30px 0 15px 0; background: #e8f0fe; padding: 12px; border-radius: 8px; letter-spacing: 0.5px; }
+    .form-group { margin-bottom: 22px; padding-bottom: 10px; }
+    label.main-label { display: block; font-weight: 500; margin-bottom: 10px; color: #202124; font-size: 15px; line-height: 1.4; }
+    select, input[type="text"] { width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
+    input[type="text"]:read-only { background-color: #f1f3f4; color: #185abc; font-weight: bold; text-align: center; letter-spacing: 2px; border: 2px dashed #aecbfa; }
+    .opt-container { display: flex; flex-direction: column; gap: 8px; }
+    .opt-row { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; color: #3c4043; cursor: pointer; padding: 6px; border-radius: 6px; }
+    .opt-row:hover { background-color: #f8f9fa; }
+    input[type="radio"], input[type="checkbox"] { width: 19px; height: 19px; margin: 0; cursor: pointer; flex-shrink: 0; }
+    .conditional-wrapper { display: none; background-color: #f8f9fa; padding: 15px; border-left: 4px solid #0b57d0; border-radius: 0 8px 8px 0; margin-top: 10px; }
+    .btn-submit { width: 100%; background-color: #0b57d0; color: white; border: none; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 28px; cursor: pointer; margin-top: 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+    .btn-submit:hover { background-color: #0842a0; }
+    .alert-box { background-color: #fef7e0; border-left: 4px solid #f9ab00; padding: 12px; font-size: 13px; border-radius: 4px; margin-bottom: 20px; line-height: 1.4; }
+    #view-loading, #view-success { display: none; text-align: center; padding: 50px 20px; }
+    .receipt-box { font-size: 32px; font-weight: bold; color: #185abc; background: #e8f0fe; padding: 15px; border-radius: 8px; margin: 20px auto; max-width: 220px; letter-spacing: 4px; border: 2px dashed #74a0ef; }
+  </style>
+</head>
+<body>
+
+<div class="survey-container">
+  
+  <div id="view-loading" style="display: block;">
+    <h3 style="color:#0b57d0; font-size:18px; font-weight:bold;">Securing Verification Bridge...</h3>
+    <p style="color:#5e5e5e; font-size:14px;">Generating cryptographic participant key attributes. Please wait...</p>
+  </div>
+
+  <form id="questionnaireForm" style="display: none;" onsubmit="executeDataCommit(event)">
+    <h2>Health Survey Questionnaire</h2>
+    <h3>Health Assessment of Young Adults (18-30 Years)<br><strong>Study:</strong> Prevalence of Diabetes & Hypertension via Clinical Assessment</h3>
+    
+    <div class="alert-box">
+      <strong>⚠️ CRITICAL STEP REQUIRED:</strong><br>
+      Please take a <strong>SCREENSHOT</strong> of this tracking string or document it cleanly now. You must match this identical ID to the checkup team to proceed further.
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">Participant Unique Code / Token ID (Locked)</label>
+      <input type="text" id="participantId" name="participantId" readonly>
+    </div>
+
+    <div class="section-banner">Section 1: Basic Demographics</div>
+    <div class="form-group">
+      <label class="main-label">1. Age (in completed years) *</label>
+      <select name="age" required>
+        <option value="">Select Age</option>
+        <script>for(var i=18; i<=30; i++) { document.write('<option value="'+i+'">'+i+'</option>'); }</script>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">2. Gender *</label>
+      <div class="opt-container">
+        <label class="opt-row"><input type="radio" name="gender" value="Male" required onchange="evaluateFemaleTrack(this.value)"> Male</label>
+        <label class="opt-row"><input type="radio" name="gender" value="Female" onchange="evaluateFemaleTrack(this.value)"> Female</label>
+        <label class="opt-row"><input type="radio" name="gender" value="Other" onchange="evaluateFemaleTrack(this.value)"> Other / Prefer not to disclose</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">3. Are you Residing - *</label>
+      <div class="opt-container">
+        <label class="opt-row"><input type="radio" name="residing" value="With family" required> With family</label>
+        <label class="opt-row"><input type="radio" name="residing" value="In Hostel"> In Hostel</label>
+        <label class="opt-row"><input type="radio" name="residing" value="In Rented accommodation"> In Rented accommodation</label>
+        <label class="opt-row"><input type="radio" name="residing" value="As Paying guest"> As Paying guest</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">4. Marital Status *</label>
+      <div class="opt-container">
+        <label class="opt-row"><input type="radio" name="maritalStatus" value="Single" required> Single</label>
+        <label class="opt-row"><input type="radio" name="maritalStatus" value="Married"> Married</label>
+      </div>
+    </div>
+
+    <div class="section-banner">Section 2: Diet & Lifestyle Metrics</div>
+    <div class="form-group">
+      <label class="main-label">5. Type of Diet *</label>
+      <div class="opt-container">
+        <label class="opt-row"><input type="radio" name="dietType" value="Vegan Diet" required onchange="evaluateBlockVisibility('m-diet-block', this.value === 'Mixed (Vegetarian + Non-Vegetarian)')"> Vegan Diet</label>
+        <label class="opt-row"><input type="radio" name="dietType" value="Vegetarian" onchange="evaluateBlockVisibility('m-diet-block', this.value === 'Mixed (Vegetarian + Non-Vegetarian)')"> Vegetarian</label>
+        <label class="opt-row"><input type="radio" name="dietType" value="Eggetarian" onchange="evaluateBlockVisibility('m-diet-block', this.value === 'Mixed (Vegetarian + Non-Vegetarian)')"> Eggetarian</label>
+        <label class="opt-row"><input type="radio" name="dietType" value="Mixed (Vegetarian + Non-Vegetarian)" onchange="evaluateBlockVisibility('m-diet-block', this.value === 'Mixed (Vegetarian + Non-Vegetarian)')"> Mixed (Vegetarian + Non-Vegetarian)</label>
+      </div>
+      
+      <div class="conditional-wrapper" id="m-diet-block">
+        <label class="main-label">5.1. If mixed diet, how frequently do you consume non vegetarian diet? *</label>
+        <select name="mixedDietFreq" id="mixedDietFreq">
+          <option value="">Select Option</option>
+          <option value="5-7 days/week">5-7 days/week</option>
+          <option value="3-4 days/week">3-4 days/week</option>
+          <option value="1-2 days/week">1-2 days/week</option>
+          <option value="< 1 day / week">&lt; 1 day / week</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">6. Frequency of Junk Food Consumption (Fast food, Fried food, Street food, Packaged and Processed foods) *</label>
+      <select name="junkFoodFreq" required>
+        <option value="">Select Option</option>
+        <option value="5-7 days/week">5-7 days/week</option>
+        <option value="3-4 days/week">3-4 days/week</option>
+        <option value="1-2 days/week">1-2 days/week</option>
+        <option value="< 1 per week">&lt; 1 per week</option>
+        <option value="Never">Never</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">7. How often do you skip breakfast? *</label>
+      <select name="skipBreakfast" required>
+        <option value="">Select Option</option>
+        <option value=">5 days/week">&gt;5 days/week</option>
+        <option value="3-5 days/week">3-5 days/week</option>
+        <option value="<3 days/week">&lt;3 days/week</option>
+        <option value="Never">Never</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">8.1. Consumption of Fruits (1 serving = 1 medium apple/Banana/Orange or 1 cup cut fruits but no fruit juice) *</label>
+      <select name="fruitConsumption" required>
+        <option value="">Select Option</option>
+        <option value="<1 Serving/day">&lt;1 Serving/day</option>
+        <option value="1-2 Serving/day">1-2 Serving/day</option>
+        <option value="≥3 Serving/day">≥3 Serving/day</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">8.2. Consumption of Vegetables (1 cup raw leafy vegetables or half cup cooked vegetables) *</label>
+      <select name="vegConsumption" required>
+        <option value="">Select Option</option>
+        <option value="<1 Serving/day">&lt;1 Serving/day</option>
+        <option value="1-2 Serving/day">1-2 Serving/day</option>
+        <option value="≥3 Serving/day">≥3 Serving/day</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">9. Intake of sugary drinks (soft drinks, packaged juices) *</label>
+      <select name="sugaryDrinks" required>
+        <option value="">Select Option</option>
+        <option value="5-7 days/week">5-7 days/week</option>
+        <option value="3-4 days/week">3-4 days/week</option>
+        <option value="1-2 days/week">1-2 days/week</option>
+        <option value="<1/week">&lt;1/week</option>
+        <option value="Never">Never</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">10. Are you taking any dietary supplements? *</label>
+      <div class="opt-container">
+        <label class="opt-row"><input type="radio" name="supplements" value="No" required onchange="evaluateBlockVisibility('supplements-block', this.value === 'Yes')"> No</label>
+        <label class="opt-row"><input type="radio" name="supplements" value="Yes" onchange="evaluateBlockVisibility('supplements-block', this.value === 'Yes')"> Yes (Please specify below)</label>
+      </div>
+      
+      <div class="conditional-wrapper" id="supplements-block">
+        <label class="main-label">10.1 If YES to supplements, please specify: *</label>
+        <div class="opt-container">
+          <label class="opt-row"><input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Multivitamin"> Multivitamin</label>
+          <label class="opt-row"><input type="checkbox" name="customSupplementGroup" class="supp-cb" value="B Complex"> B Complex</label>
+          <label class="opt-row"><input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Protein Suppliment"> Protein Supplement</label>
+          <label class="opt-row"><input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Vit. D"> Vit. D</label>
+          <label class="opt-row"><input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Iron"> Iron</label>
+          <label class="opt-row"><input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Ayurvedic / Indigenous"> Ayurvedic / Indigenous</label>
+          <label class="opt-row"><input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Others" onchange="evaluateBlockVisibility('supp-other-block', this.checked)"> Others</label>
+        </div>
+        <div class="form-group" id="supp-other-block" style="display:none; margin-top:12px;">
+          <label class="main-label">10.1.1 If others (Please specify): *</label>
+          <input type="text" id="customSupplement" name="customSupplement">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">11. Are you taking any medications for weight gain / weight reduction? *</label>
+      <div class="opt-container">
+        <label class="opt-row"><input type="radio" name="weightMeds" value="No" required onchange="evaluateBlockVisibility('weight-block', this.value === 'Yes')"> No</label>
+        <label class="opt-row"><input type="radio" name="weightMeds" value="Yes" onchange="evaluateBlockVisibility('weight-block', this.value === 'Yes')"> Yes</label>
+      </div>
+      <div class="conditional-wrapper" id="weight-block">
+        <label class="main-label">11.1 If YES to weight medications, please specify: *</label>
+        <input type="text" id="weightMedDetails" name="weightMedDetails">
+      </div>
+    </div>
+
+    <div class="section-banner">Section 3: Physical Activity & Screen Time Profiles</div>
+    <div class="form-group">
+      <label class="main-label">12. Average physical activity frequency *</label>
+      <select name="physicalActivityFreq" required>
+        <option value="">Select Option</option>
+        <option value="5-7 days/week">5-7 days/week</option>
+        <option value="3-4 days/week">3-4 days/week</option>
+        <option value="1-2 days/week">1-2 days/week</option>
+        <option value="< 01/week">&lt; 01/week</option>
+        <option value="Never">Never</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">12.1. Type of Physical Activity (You may select more than one) *</label>
+      <div class="opt-container">
+        <label class="opt-row"><input type="checkbox" name="customActivityGroup" class="act-cb" value="Walking"> Walking</label>
+        <label class="opt-row"><input type="checkbox" name="customActivityGroup" class="act-cb" value="Running"> Running</label>
+        <label class="opt-row"><input type="checkbox" name="customActivityGroup" class="act-cb" value="Gym"> Gym</label>
+        <label class="opt-row"><input type="checkbox" name="customActivityGroup" class="act-cb" value="Yoga"> Yoga</label>
+        <label class="opt-row"><input type="checkbox" name="customActivityGroup" class="act-cb" value="Sports"> Sports</label>
+        <label class="opt-row"><input type="checkbox" name="customActivityGroup" class="act-cb" value="Swimming"> Swimming</label>
+        <label class="opt-row"><input type="checkbox" name="customActivityGroup" class="act-cb" value="Others" onchange="evaluateBlockVisibility('act-other-block', this.checked)"> Others</label>
+      </div>
+      <div class="conditional-wrapper" id="act-other-block" style="border-left:4px solid #0b57d0; margin-top:10px;">
+        <label class="main-label">12.2 If "Others" physical activity, please specify: *</label>
+        <input type="text" id="customActivity" name="customActivity">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">13. Average duration of such activity per session? *</label>
+      <select name="sessionDuration" required>
+        <option value="">Select Option</option>
+        <option value="< 30 min">&lt; 30 min</option>
+        <option value="30-59 Min">30-59 Min</option>
+        <option value="≥60min">≥60min</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">14. Average daily screen time (mobile/computer/TV/Laptop/Tablet) *</label>
+      <select name="totalScreenTime" required>
+        <option value="">Select Option</option>
+        <option value="< 1 Hours">&lt; 1 Hours</option>
+        <option value="1-2 Hours">1-2 Hours</option>
+        <option value="2-3 hours">2-3 hours</option>
+        <option value="3-4 Hours">3-4 Hours</option>
+        <option value="4-5 Hours">4-5 Hours</option>
+        <option value="> 05 Hours">&gt; 05 Hours</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">15.1 Average daily educational screen time *</label>
+      <select name="eduScreenTime" required>
+        <option value="">Select Option</option>
+        <option value="< 1 Hours">&lt; 1 Hours</option>
+        <option value="1-2 Hours">1-2 Hours</option>
+        <option value="2-3 hours">2-3 hours</option>
+        <option value="3-4 Hours">3-4 Hours</option>
+        <option value="4-5 Hours">4-5 Hours</option>
+        <option value="> 05 Hours">&gt; 05 Hours</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">15.2 Average daily recreational screen time *</label>
+      <select name="recScreenTime" required>
+        <option value="">Select Option</option>
+        <option value="< 1 Hours">&lt; 1 Hours</option>
+        <option value="1-2 Hours">1-2 Hours</option>
+        <option value="2-3 hours">2-3 hours</option>
+        <option value="3-4 Hours">3-4 Hours</option>
+        <option value="4-5 Hours">4-5 Hours</option>
+        <option value="> 5 Hours">&gt; 5 Hours</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">15.3 Average screen time before sleep *</label>
+      <select name="sleepScreenTime" required>
+        <option value="">Select Option</option>
+        <option value="< 15 min">&lt; 15 min</option>
+        <option value="15-30 min">15-30 min</option>
+        <option value="30 min-1 Hour">30 min-1 Hour</option>
+        <option value="> 1 Hour">&gt; 1 Hour</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">16. Average sleep duration per night (in Hrs.) *</label>
+      <select name="sleepDuration" required>
+        <option value="">Select Option</option>
+        <option value="Less than 5 hours">Less than 5 hours</option>
+        <option value="5 Hours">5 Hours</option>
+        <option value="6 Hours">6 Hours</option>
+        <option value="7 Hours">7 Hours</option>
+        <option value="8 Hours">8 Hours</option>
+        <option value="9 Hours">9 Hours</option>
+        <option value="10 Hours">10 Hours</option>
+        <option value=">10 Hours">&gt;10 Hours</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">17. Do you feel refreshed after sleep? *</label>
+      <select name="feelRefreshed" required>
+        <option value="">Select Option</option>
+        <option value="Always">Always</option>
+        <option value="Often">Often</option>
+        <option value="Sometimes">Sometimes</option>
+        <option value="Rarely">Rarely</option>
+      </select>
+    </div>
+
+    <div class="section-banner">Section 4: Stress Assessment (PSS-4)</div>
+    <div class="form-group">
+      <label class="main-label">18.1. In the last 1 month, how often have you felt that you were unable to control the important things in your life? *</label>
+      <select name="pss1" required>
+        <option value="">Select Response</option>
+        <option value="Never">Never</option>
+        <option value="Almost Never">Almost Never</option>
+        <option value="Some times">Some times</option>
+        <option value="Fairly often">Fairly often</option>
+        <option value="Very often">Very often</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="main-label">18.2. In the last 1 month, how often have you felt confident about your ability to handle your personal problems? (Reverse scored) *</label>
+      <select name="pss2" required>
+        <option value="">Select Response</option>
+        <option value="Never">Never</option>
+        <option value="Almost Never">Almost Never</option>
+        <option value="Some times">Some times</option>
+        <option value="Fairly often">Fairly often</option>
+        <option value="Very often">Very often</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="main-label">18.3. In the last 1 month, how often have you felt that things were going your way? (Reverse scored) *</label>
+      <select name="pss3" required>
+        <option value="">Select Response</option>
+        <option value="Never">Never</option>
+        <option value="Almost Never">Almost Never</option>
+        <option value="Some times">Some times</option>
+        <option value="Fairly often">Fairly often</option>
+        <option value="Very often">Very often</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="main-label">18.4. In the last 1 month, how often have you felt that difficulties were piling up so high that you could not overcome them? *</label>
+      <select name="pss4" required>
+        <option value="">Select Response</option>
+        <option value="Never">Never</option>
+        <option value="Almost Never">Almost Never</option>
+        <option value="Some times">Some times</option>
+        <option value="Fairly often">Fairly often</option>
+        <option value="Very often">Very often</option>
+      </select>
+    </div>
+
+    <div class="section-banner">Section 5: Substance Use & Health History</div>
+    <div class="form-group">
+      <label class="main-label">19. Tobacco use (smoking/chewing/sniffing) *</label>
+      <div class="opt-container">
+        <label class="opt-row"><input type="radio" name="tobaccoUse" value="Never" required onchange="evaluateBlockVisibility('tobacco-block', this.value !== 'Never')"> Never</label>
+        <label class="opt-row"><input type="radio" name="tobaccoUse" value="Former" onchange="evaluateBlockVisibility('tobacco-block', this.value !== 'Never')"> Former</label>
+        <label class="opt-row"><input type="radio" name="tobaccoUse" value="Yes" onchange="evaluateBlockVisibility('tobacco-block', this.value !== 'Never')"> Yes</label>
+      </div>
+      <div class="conditional-wrapper" id="tobacco-block">
+        <div class="form-group"><label class="main-label">19.1 Specify mode of intake: *</label><input type="text" id="tobaccoMode" name="tobaccoMode"></div>
+        <div class="form-group"><label class="main-label">19.2 Specify frequency: *</label><input type="text" id="tobaccoFreq" name="tobaccoFreq"></div>
+        <div class="form-group"><label class="main-label">19.3 Quantity per session: *</label><input type="text" id="tobaccoQty" name="tobaccoQty"></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">20. Alcohol consumption *</label>
+      <div class="opt-container">
+        <label class="opt-row"><input type="radio" name="alcoholUse" value="Never" required onchange="evaluateBlockVisibility('alcohol-block', this.value !== 'Never')"> Never</label>
+        <label class="opt-row"><input type="radio" name="alcoholUse" value="Former" onchange="evaluateBlockVisibility('alcohol-block', this.value !== 'Never')"> Former</label>
+        <label class="opt-row"><input type="radio" name="alcoholUse" value="Yes" onchange="evaluateBlockVisibility('alcohol-block', this.value !== 'Never')"> Yes</label>
+      </div>
+      <div class="conditional-wrapper" id="alcohol-block">
+        <div class="form-group"><label class="main-label">20.1 Type of Alcohol consumption (Beer/Rum/Vodka/Whiskey/Gin/Wine): *</label><input type="text" id="alcoholType" name="alcoholType"></div>
+        <div class="form-group"><label class="main-label">20.2 Consumption amount per session (Pegs/ml): *</label><input type="text" id="alcoholQty" name="alcoholQty"></div>
+        <div class="form-group"><label class="main-label">20.3 No. of such sessions per week: *</label><input type="text" id="alcoholSessions" name="alcoholSessions"></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">21. Use of other substances / Any other addiction *</label>
+      <div class="opt-container">
+        <label class="opt-row"><input type="radio" name="substanceProfile" value="Never" required onchange="evaluateBlockVisibility('substance-block', this.value !== 'Never')"> Never</label>
+        <label class="opt-row"><input type="radio" name="substanceProfile" value="Former" onchange="evaluateBlockVisibility('substance-block', this.value !== 'Never')"> Former</label>
+        <label class="opt-row"><input type="radio" name="substanceProfile" value="Yes" onchange="evaluateBlockVisibility('substance-block', this.value !== 'Never')"> Yes</label>
+      </div>
+      <div class="conditional-wrapper" id="substance-block">
+        <label class="main-label">21.1 Please select the relevant parameters: *</label>
+        <div class="opt-container">
+          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Vaping"> Vaping</label>
+          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Marijuana/Ganja"> Marijuana/Ganja</label>
+          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Weed"> Weed</label>
+          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Bhang"> Bhang</label>
+          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Doda/Afeem"> Doda/Afeem</label>
+          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Sleeping pills"> Sleeping pills</label>
+          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Pain killers"> Pain killers</label>
+          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Cough syrup"> Cough syrup</label>
+          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="MDMA"> MDMA</label>
+          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Any other" onchange="evaluateBlockVisibility('sub-other-block', this.checked)"> Any other</label>
+        </div>
+        <div class="form-group" id="sub-other-block" style="display:none; margin-top:12px;">
+          <label class="main-label">21.2 If any other (please specify):</label>
+          <input type="text" id="customSubstance" name="customSubstance">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">22. Have you ever been diagnosed with any chronic illness? *</label>
+      <div class="opt-container">
+        <label class="opt-row"><input type="radio" name="chronicIllness" value="No" required onchange="evaluateBlockVisibility('chronic-block', this.value === 'Yes')"> No</label>
+        <label class="opt-row"><input type="radio" name="chronicIllness" value="Yes" onchange="evaluateBlockVisibility('chronic-block', this.value === 'Yes')"> Yes</label>
+      </div>
+      <div class="conditional-wrapper" id="chronic-block">
+        <label class="main-label">22.1 If YES to chronic illness, please specify: *</label>
+        <div class="opt-container">
+          <label class="opt-row"><input type="checkbox" name="customChronicGroup" class="chr-cb" value="BP"> BP</label>
+          <label class="opt-row"><input type="checkbox" name="customChronicGroup" class="chr-cb" value="Diabetes Mellitus"> Diabetes Mellitus</label>
+          <label class="opt-row"><input type="checkbox" name="customChronicGroup" class="chr-cb" value="Joint disorders"> Joint disorders</label>
+          <label class="opt-row"><input type="checkbox" name="customChronicGroup" class="chr-cb" value="PCOS/PCOD"> PCOS/PCOD (if female gender)</label>
+          <label class="opt-row"><input type="checkbox" name="customChronicGroup" class="chr-cb" value="Malignancy / cancer"> Malignancy / cancer</label>
+          <label class="opt-row"><input type="checkbox" name="customChronicGroup" class="chr-cb" value="Seizure/Epilepsy"> Seizure/Epilepsy</label>
+          <label class="opt-row"><input type="checkbox" name="customChronicGroup" class="chr-cb" value="Any other"> Any other</label>
+        </div>
+        <div class="form-group" style="margin-top:12px;">
+          <label class="main-label">22.2 Are you undergoing treatment for that and since when? *</label>
+          <input type="text" id="chronicTreatment" name="chronicTreatment">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">23. Family history of the following diseases in first degree relative *</label>
+      <div class="opt-container">
+        <label class="opt-row"><input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Diabetes Mellitus"> Diabetes Mellitus</label>
+        <label class="opt-row"><input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Hypertension"> Hypertension</label>
+        <label class="opt-row"><input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Heart disease"> Heart disease</label>
+        <label class="opt-row"><input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Stroke/Paralysis"> Stroke/Paralysis</label>
+        <label class="opt-row"><input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Malignancy/cancer"> Malignancy/cancer</label>
+        <label class="opt-row"><input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Any other" onchange="evaluateBlockVisibility('fam-other-block', this.checked)"> Any other</label>
+        <label class="opt-row"><input type="checkbox" name="customFamilyGroup" class="fam-cb" value="None"> None</label>
+      </div>
+      <div class="conditional-wrapper" id="fam-other-block" style="border-left:4px solid #0b57d0; margin-top:10px;">
+        <label class="main-label">23.1 If selected any other, please specify: *</label>
+        <input type="text" id="customFamilyHistory" name="customFamilyHistory">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">24. Any history of death in first degree relative because of heart attack/stroke (Paralysis)/cancer *</label>
+      <div class="opt-container">
+        <label class="opt-row"><input type="radio" name="familyDeath" value="No" required> No</label>
+        <label class="opt-row"><input type="radio" name="familyDeath" value="Yes"> Yes</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">25. Family Income *</label>
+      <div class="opt-container">
+        <label class="opt-row"><input type="radio" name="familyIncome" value="Less than Rs. 10,000 per month" required> Less than Rs. 10,000 per month</label>
+        <label class="opt-row"><input type="radio" name="familyIncome" value="Rs. 11,000-25,000 per month"> Rs. 11,000-25,000 per month</label>
+        <label class="opt-row"><input type="radio" name="familyIncome" value="Rs. 26,000-50,000 per month"> Rs. 26,000-50,000 per month</label>
+        <label class="opt-row"><input type="radio" name="familyIncome" value="More than Rs. 50,000 per month"> More than Rs. 50,000 per month</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">26. Have you experienced unexpected weight gain recently (in last 06 months)? *</label>
+      <div class="opt-container">
+        <label class="opt-row"><input type="radio" name="weightGain" value="Yes" required> Yes</label>
+        <label class="opt-row"><input type="radio" name="weightGain" value="No"> No</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">27. Have you experienced unintentional weight loss recently? (in last 06 months) *</label>
+      <div class="opt-container">
+        <label class="opt-row"><input type="radio" name="weightLoss" value="Yes" required> Yes</label>
+        <label class="opt-row"><input type="radio" name="weightLoss" value="No"> No</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="main-label">28. Have you ever proactively get your health checkup done in past one year without any symptoms? *</label>
+      <div class="opt-container">
+        <label class="opt-row"><input type="radio" name="proactiveCheckup" value="Yes" required> Yes</label>
+        <label class="opt-row"><input type="radio" name="proactiveCheckup" value="No"> No</label>
+      </div>
+    </div>
+
+    <div id="gated-female-track" style="display: none;">
+      <div class="section-banner">Section 6: Female Participant Assessment</div>
+      
+      <div class="form-group">
+        <label class="main-label">29. At what age did you get your first menstrual period? *</label>
+        <input type="text" id="periodAge" name="periodAge">
+      </div>
+
+      <div class="form-group">
+        <label class="main-label">30. Are your menstrual cycles regular? (Your cycle is the number of days from the start of one period to the start of the next) *</label>
+        <div class="opt-container">
+          <label class="opt-row"><input type="radio" name="cycleRegularity" value="Yes"> Yes</label>
+          <label class="opt-row"><input type="radio" name="cycleRegularity" value="No"> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="main-label">31. Usual cycle length (Number of days): *</label>
+        <input type="text" id="cycleLength" name="cycleLength">
+      </div>
+
+      <div class="form-group">
+        <label class="main-label">32. Do you often experience delayed periods (>10 days)? *</label>
+        <div class="opt-container">
+          <label class="opt-row"><input type="radio" name="delayedPeriods" value="Yes"> Yes</label>
+          <label class="opt-row"><input type="radio" name="delayedPeriods" value="No"> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="main-label">33. Duration and Flow of Menstrual bleeding (Total No. of pads used per cycle) *</label>
+        <div class="opt-container">
+          <label class="opt-row"><input type="radio" name="menstrualFlow" value="<3"> &lt;3</label>
+          <label class="opt-row"><input type="radio" name="menstrualFlow" value="3-5"> 3-5</label>
+          <label class="opt-row"><input type="radio" name="menstrualFlow" value="5-10"> 5-10</label>
+          <label class="opt-row"><input type="radio" name="menstrualFlow" value="10-15"> 10-15</label>
+          <label class="opt-row"><input type="radio" name="menstrualFlow" value=">15"> &gt;15</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="main-label">34. Have you noticed significant change in growth and distribution of body hair in past one year? (Appearance of hair on the face, lower back, legs & arms) *</label>
+        <div class="opt-container">
+          <label class="opt-row"><input type="radio" name="hairChange" value="Yes"> Yes</label>
+          <label class="opt-row"><input type="radio" name="hairChange" value="No"> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="main-label">35. Have you noticed significant increase in Acne on the face or body? *</label>
+        <div class="opt-container">
+          <label class="opt-row"><input type="radio" name="acneIncrease" value="Yes"> Yes</label>
+          <label class="opt-row"><input type="radio" name="acneIncrease" value="No"> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="main-label">36. Are you suffering from PCOS/PCOD? *</label>
+        <div class="opt-container">
+          <label class="opt-row"><input type="radio" name="pcosStatus" value="Yes"> Yes</label>
+          <label class="opt-row"><input type="radio" name="pcosStatus" value="No"> No</label>
+          <label class="opt-row"><input type="radio" name="pcosStatus" value="Not sure"> Not sure</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="main-label">37. Is there a family history of PCOS in mother or sister? *</label>
+        <div class="opt-container">
+          <label class="opt-row"><input type="radio" name="familyPcos" value="Yes"> Yes</label>
+          <label class="opt-row"><input type="radio" name="familyPcos" value="No"> No</label>
+          <label class="opt-row"><input type="radio" name="familyPcos" value="Not sure"> Not sure</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="main-label">38. Do you have children? *</label>
+        <div class="opt-container">
+          <label class="opt-row"><input type="radio" name="hasChildren" value="Yes" onchange="evaluateBlockVisibility('child-block', this.value === 'Yes')"> Yes</label>
+          <label class="opt-row"><input type="radio" name="hasChildren" value="No" onchange="evaluateBlockVisibility('child-block', this.value === 'Yes')"> No</label>
+        </div>
+        <div class="conditional-wrapper" id="child-block">
+          <label class="main-label">39. If yes, age of youngest child? *</label>
+          <input type="text" id="youngestChildAge" name="youngestChildAge">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="main-label">40. Have you ever had Abortion? *</label>
+        <div class="opt-container">
+          <label class="opt-row"><input type="radio" name="hadAbortion" value="Yes"> Yes</label>
+          <label class="opt-row"><input type="radio" name="hadAbortion" value="No"> No</label>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-submit">Submit Survey Data</button>
+  </form>
+
+  <div id="view-success">
+    <h2 style="color: #1aa260;">✅ Survey Data Committed Successfully!</h2>
+    <p style="color:#5e5e5e; font-size:14px; margin-bottom:25px;">Your responses have been structuralized anonymously. Your verification lookup receipt is displayed below:</p>
+    <div class="receipt-box" id="receiptToken">------</div>
+    <p style="color: #b06000; font-weight: 500; font-size:14px; background:#fef7e0; padding:10px; border-radius:6px;">⚠️ Verify this code matches your screen capture before leaving this web interface.</p>
+  </div>
+
+</div>
+
+<script>
+  window.onload = function() {
+    google.script.run.withSuccessHandler(function(token) {
+      document.getElementById('participantId').value = token;
+      document.getElementById('view-loading').style.display = 'none';
+      document.getElementById('questionnaireForm').style.display = 'block';
+    }).getNewToken();
+  };
+
+  // function evaluateBlockVisibility(elementId, shouldShow) {
+  //   var wrapper = document.getElementById(elementId);
+  //   wrapper.style.display = shouldShow ? 'block' : 'none';
+  //   var fields = wrapper.querySelectorAll('select, input[type="text"], input[type="radio"]');
+  //   fields.forEach(function(field) {
+  //     if(field.id !== "customSubstance") { // Keep optional question 21.2 dynamic
+  //       field.required = shouldShow;
+  //     }
+  //   });
+  // }
+
+  //////// NEW CODE TO MANDATE CHECKBOXES TOO //////
+  function evaluateBlockVisibility(elementId, shouldShow) {
+    var wrapper = document.getElementById(elementId);
+    wrapper.style.display = shouldShow ? 'block' : 'none';
+    
+    // Target inputs, excluding checkboxes from standard HTML required validation
+    var fields = wrapper.querySelectorAll('select, input[type="text"], input[type="radio"]');
+    fields.forEach(function(field) {
+      if (!shouldShow) {
+        field.required = false;
+      } else {
+        // Specific inline condition rules for text boxes
+        if (field.id === "customSupplement") {
+          field.required = document.querySelector('input[value="Others"]').checked;
+        } else if (field.id === "customActivity") {
+          field.required = document.querySelector('.act-cb[value="Others"]').checked;
+        } else if (field.id === "customSubstance") {
+          field.required = false; // 21.2 is explicitly never mandatory [cite: 865]
+        } else {
+          field.required = true;
+        }
+      }
+    });
+  }
+
+  // New Helper: Validates that at least one checkbox is selected in a visible group
+  function validateCheckboxGroup(wrapperId, checkboxClass, groupLabel) {
+    var wrapper = document.getElementById(wrapperId);
+    if (wrapper.style.display === 'block' || wrapper.style.display === '') {
+      var checkboxes = wrapper.querySelectorAll('.' + checkboxClass);
+      var checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+      
+      if (checkedCount === 0) {
+        alert("Please select at least one option for: " + groupLabel);
+        return false;
+      }
+    }
+    return true;
+  }
+
+  // function executeDataCommit(e) {
+  //   e.preventDefault();
+
+  //   // 1. Run custom checkbox validations before submitting
+  //   if (!validateCheckboxGroup('supplements-block', 'supp-cb', 'Supplement Specifications [10.1]')) return;
+  //   if (!validateCheckboxGroup('chronic-block', 'chr-cb', 'Chronic Illness Specifications [22.1]')) return;
+
+  //   document.getElementById('questionnaireForm').style.display = 'none';
+  //   document.getElementById('view-loading').querySelector('h3').innerText = "Encrypting Data Streams...";
+  //   document.getElementById('view-loading').style.display = 'block';
+    
+  //   var form = document.getElementById('questionnaireForm');
+  //   var payload = {};
+    
+  //   var elements = form.querySelectorAll('input, select');
+  //   elements.forEach(function(el) {
+  //     if(!el.name) return;
+  //     if(el.type === 'radio' && !el.checked) return;
+      
+  //     if(el.type === 'checkbox') {
+  //       if(el.checked) {
+  //         var cls = el.className;
+  //         if(!payload[cls]) payload[cls] = [];
+  //         payload[cls].push(el.value);
+  //       }
+  //     } else {
+  //       payload[el.name] = el.value;
+  //     }
+  //   });
+    
+  //   // Package array fields into flat strings before transmission
+  //   if(payload['supp-cb']) payload.supplementDetails = payload['supp-cb'].join(', ');
+  //   if(payload['act-cb'])  payload.activityTypes = payload['act-cb'].join(', ');
+  //   if(payload['sub-cb'])  payload.otherSubstances = payload['sub-cb'].join(', ');
+  //   if(payload['chr-cb'])  payload.chronicIllnessDetails = payload['chr-cb'].join(', ');
+  //   if(payload['fam-cb'])  payload.familyHistory = payload['fam-cb'].join(', ');
+
+  //   google.script.run.withSuccessHandler(function(res) {
+  //     document.getElementById('view-loading').style.display = 'none';
+  //     if(res === "SUCCESS") {
+  //       document.getElementById('receiptToken').innerText = document.getElementById('participantId').value;
+  //       document.getElementById('view-success').style.display = 'block';
+  //       window.scrollTo(0,0);
+  //     } else {
+  //       alert("Transaction Failed: " + res);
+  //       document.getElementById('questionnaireForm').style.display = 'block';
+  //     }
+  //   }).processFormData(payload);
+  // }
+
+  function executeDataCommit(e) {
+    e.preventDefault();
+
+    // 1. Run custom checkbox validations before submitting
+    if (!validateCheckboxGroup('supplements-block', 'supp-cb', 'Supplement Specifications [10.1]')) return;
+    if (!validateCheckboxGroup('chronic-block', 'chr-cb', 'Chronic Illness Specifications [22.1]')) return;
+
+    document.getElementById('questionnaireForm').style.display = 'none';
+    document.getElementById('view-loading').querySelector('h3').innerText = "Encrypting Data Streams...";
+    document.getElementById('view-loading').style.display = 'block';
+    
+    var form = document.getElementById('questionnaireForm');
+    var payload = {};
+    
+    // 2. FIXED: Correctly capture both standard fields and multi-select checkbox arrays
+    var elements = form.querySelectorAll('input, select');
+    elements.forEach(function(el) {
+      if(!el.name) return;
+      
+      if(el.type === 'radio') {
+        if(el.checked) payload[el.name] = el.value;
+      } else if(el.type === 'checkbox') {
+        if(el.checked) {
+          // Group checked values by their native 'name' attribute array
+          if(!payload[el.name]) payload[el.name] = [];
+          payload[el.name].push(el.value);
+        }
+      } else {
+        payload[el.name] = el.value;
+      }
+    });
+    
+    // 3. FIXED: Convert arrays to comma-separated strings matching the precise sheet columns
+    payload.supplementDetails     = payload.customSupplementGroup ? payload.customSupplementGroup.join(', ') : 'None';
+    payload.activityTypes         = payload.customActivityGroup ? payload.customActivityGroup.join(', ') : 'None';
+    payload.otherSubstances       = payload.customSubstanceGroup ? payload.customSubstanceGroup.join(', ') : 'None';
+    payload.chronicIllnessDetails = payload.customChronicGroup ? payload.customChronicGroup.join(', ') : 'None';
+    payload.familyHistory         = payload.customFamilyGroup ? payload.customFamilyGroup.join(', ') : 'None';
+
+    // Send payload safely to Code.gs
+    google.script.run.withSuccessHandler(function(res) {
+      document.getElementById('view-loading').style.display = 'none';
+      if(res === "SUCCESS") {
+        document.getElementById('receiptToken').innerText = document.getElementById('participantId').value;
+        document.getElementById('view-success').style.display = 'block';
+        window.scrollTo(0,0);
+      } else {
+        alert("Transaction Failed: " + res);
+        document.getElementById('questionnaireForm').style.display = 'block';
+      }
+    }).processFormData(payload);
+  }
+
+
+  ///////CHECKBOX MANDATE ENDS HERE ////////
+  function evaluateFemaleTrack(gender) {
+    var container = document.getElementById('gated-female-track');
+    var isFemale = (gender === 'Female');
+    container.style.display = isFemale ? 'block' : 'none';
+    
+    var inputs = container.querySelectorAll('input[type="text"], input[type="radio"]');
+    inputs.forEach(function(input) {
+      if(!["youngestChildAge"].includes(input.id)) {
+        input.required = isFemale;
+      }
+    });
+  }
+  
+</script>
+</body>
+</html>
