@@ -3,6 +3,31 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <style>
+    body.lang-en .lang-hi { display: none !important; }
+    body.lang-hi .lang-en { display: none !important; }
+    .consent-text-box {
+      max-height: 400px;
+      overflow-y: auto;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      padding: 15px;
+      background-color: #f8f9fa;
+      margin-bottom: 20px;
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: #3c4043;
+      text-align: left;
+    }
+    .consent-text-box h2, .consent-text-box h3 {
+      text-align: left;
+      color: #0b57d0;
+    }
+    .consent-text-box h2 { font-size: 18px; margin-top: 0; margin-bottom: 12px; border-bottom: 1px solid #dadce0; padding-bottom: 8px; }
+    .consent-text-box h3 { font-size: 15px; font-weight: bold; margin-top: 15px; margin-bottom: 8px; }
+    .consent-text-box p { margin: 0 0 10px 0; }
+    .consent-text-box ul { margin: 0 0 10px 0; padding-left: 20px; }
+    .consent-text-box li { margin-bottom: 5px; }
+
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f4f9; padding: 15px; margin: 0; display: flex; justify-content: center; }
     .survey-container { max-width: 680px; width: 100%; background: white; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); padding: 25px 20px; box-sizing: border-box; }
     h2 { color: #0b57d0; margin: 0 0 5px 0; font-size: 22px; text-align: center; }
@@ -24,7 +49,7 @@
     .receipt-box { font-size: 32px; font-weight: bold; color: #185abc; background: #e8f0fe; padding: 15px; border-radius: 8px; margin: 20px auto; max-width: 220px; letter-spacing: 4px; border: 2px dashed #74a0ef; }
   </style>
 </head>
-<body>
+<body class="lang-en">
 
 <div class="survey-container">
   
@@ -33,617 +58,1488 @@
     <p style="color:#5e5e5e; font-size:14px;">Generating cryptographic participant key attributes. Please wait...</p>
   </div>
 
-  <form id="questionnaireForm" style="display: none;" onsubmit="executeDataCommit(event)">
+  <!-- Language Selection View -->
+  <div id="view-language" style="display: none; text-align: center; padding: 20px 10px;">
     <h2>Health Survey Questionnaire</h2>
-    <h3>Health Assessment of Young Adults (18-30 Years)<br><strong>Study:</strong> Prevalence of Diabetes & Hypertension via Clinical Assessment</h3>
+    <h3>Health Assessment of Young Adults (18-30 Years)</h3>
+    <div class="form-group" style="margin-top: 30px;">
+      <label class="main-label" style="font-size: 16px; margin-bottom: 15px; font-weight: 500; text-align: center;">
+        Dear participant, Do you want to proceed in: English/Hindi?<br>
+        <span style="font-size: 15px; color: #5e5e5e; font-weight: normal; margin-top: 5px; display: block;">प्रिय प्रतिभागी, क्या आप आगे अंग्रेज़ी में जारी रखना चाहते हैं या हिंदी में?</span>
+      </label>
+      <select id="langSelect" style="max-width: 300px; margin: 0 auto; display: block;">
+        <option value="en">English (अंग्रेज़ी)</option>
+        <option value="hi">Hindi (हिंदी)</option>
+      </select>
+    </div>
+    <button type="button" class="btn-submit" onclick="goToConsent()" style="max-width: 200px; margin: 30px auto 0 auto; display: block;">Next / आगे बढ़ें</button>
+  </div>
+
+  <!-- Consent View -->
+  <div id="view-consent" style="display: none; padding: 10px;">
+    <!-- English Consent Content -->
+    <div class="lang-en">
+      <div class="consent-text-box">
+        <h2>Participant Information and Informed Consent</h2>
+        <p><strong>Title of the Study:</strong><br>
+        “TO FIND OUT THE PREVALENCE OF HYPERTENSION AND DIABETES MELLITUS BY MEASURING STAT BLOOD PRESSURE, FASTING BLOOD GLUCOSE AND HbA1C AMONG YOUNG ADULTS”</p>
+        <p>You are invited to participate in this research survey. Please read the following information carefully before deciding whether to participate.</p>
+        
+        <h3>Purpose of the Study</h3>
+        <p>The purpose of this study is to understand various aspects of health and well-being among young adults aged 18–30 years. The information collected will be used solely for academic and research purposes.</p>
+        
+        <h3>Participation</h3>
+        <p>Your participation is entirely voluntary. If you agree to participate, you will be asked to complete an online questionnaire. In addition, a small blood sample will be collected and a short physical examination will be conducted as part of this study.</p>
+        
+        <h3>Confidentiality and Privacy</h3>
+        <ul>
+          <li>This survey is completely anonymous.</li>
+          <li>No personally identifiable information, such as your name, email address, phone number, or address, will be collected.</li>
+          <li>Your responses will be kept confidential and analyzed only in aggregate form for research purposes.</li>
+          <li>No individual participant will be identified in any report, publication, or presentation arising from this study.</li>
+        </ul>
+        
+        <h3>Risks and Benefits</h3>
+        <p>There are minimal risks associated with participation. The blood sample collection may cause slight discomfort, and the physical examination will be brief and non-invasive. Questions are related to your health and/or lifestyle; skipping any question will defeat the very purpose of the study, hence, you are requested to answer all the questions honestly. While there may be no direct benefit to you, your participation will contribute to a better understanding of health among young adults and support future research.</p>
+        
+        <h3>Voluntary Participation and Withdrawal</h3>
+        <p>Participation is entirely voluntary. You are free to stop completing the questionnaire at any time before submitting your responses. Since the survey is anonymous, once responses have been submitted, they cannot be withdrawn because they cannot be linked back to any individual.</p>
+        
+        <h3>Eligibility</h3>
+        <p>You may participate only if:</p>
+        <ul>
+          <li>You are 18–30 years of age.</li>
+          <li>You have read and understood the information provided above.</li>
+          <li>You voluntarily agree to participate.</li>
+        </ul>
+        
+        <h3>Consent Statement</h3>
+        <p>By selecting "I Agree" and proceeding to the questionnaire, I confirm that:</p>
+        <ul>
+          <li>I am between 18 and 30 years of age.</li>
+          <li>I have read and understood the information provided above.</li>
+          <li>I understand that my participation is voluntary.</li>
+          <li>I understand that my responses are anonymous and will be used only for research purposes.</li>
+          <li>I understand that my small blood sample will be collected and a short physical examination will be conducted as part of this study.</li>
+          <li>I voluntarily consent to participate in this study.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Hindi Consent Content -->
+    <div class="lang-hi">
+      <div class="consent-text-box">
+        <h2>प्रतिभागी सूचना एवं सूचित सहमति पत्र</h2>
+        <p><strong>अध्ययन का शीर्षक:</strong><br>
+        “18–30 वर्ष के युवा वयस्कों में तत्काल रक्तचाप (Stat Blood Pressure), उपवास रक्त शर्करा (Fasting Blood Glucose) तथा HbA1c के मापन द्वारा उच्च रक्तचाप (Hypertension) एवं मधुमेह (Diabetes Mellitus) की व्यापकता का पता लगाना”</p>
+        <p>आपको इस शोध अध्ययन में भाग लेने के लिए आमंत्रित किया जाता है। कृपया भाग लेने का निर्णय लेने से पहले निम्नलिखित जानकारी को ध्यानपूर्वक पढ़ें।</p>
+        
+        <h3>अध्ययन का उद्देश्य</h3>
+        <p>इस अध्ययन का उद्देश्य 18–30 वर्ष आयु वर्ग के युवा वयस्कों में उच्च रक्तचाप एवं मधुमेह की व्यापकता का आकलन करना तथा उनके स्वास्थ्य एवं जीवनशैली से संबंधित विभिन्न पहलुओं को समझना है। इस अध्ययन से प्राप्त जानकारी का उपयोग केवल शैक्षणिक एवं अनुसंधान उद्देश्यों के लिए किया जाएगा।</p>
+        
+        <h3>अध्ययन में सहभागिता</h3>
+        <p>इस अध्ययन में आपकी भागीदारी पूर्णतः स्वैच्छिक है। यदि आप भाग लेने के लिए सहमत होते हैं, तो आपसे एक ऑनलाइन प्रश्नावली भरने का अनुरोध किया जाएगा। इसके अतिरिक्त, इस अध्ययन के अंतर्गत आपका रक्तचाप मापा जाएगा, एक छोटा रक्त नमूना (ब्लड सैंपल) लिया जाएगा तथा संक्षिप्त शारीरिक परीक्षण किया जाएगा।</p>
+        
+        <h3>गोपनीयता एवं निजता</h3>
+        <p>यह अध्ययन पूर्णतः गोपनीय है। आपकी कोई भी व्यक्तिगत पहचान संबंधी जानकारी, जैसे नाम, ई-मेल पता, मोबाइल नंबर या पता, एकत्रित नहीं किया जाएगा।</p>
+        <ul>
+          <li>आपके द्वारा दी गई सभी जानकारी पूर्णतः गोपनीय रखी जाएगी तथा केवल समेकित (Aggregate) रूप में अनुसंधान उद्देश्यों के लिए विश्लेषित की जाएगी।</li>
+          <li>इस अध्ययन से संबंधित किसी भी रिपोर्ट, शोध-पत्र या प्रस्तुति में किसी भी प्रतिभागी की व्यक्तिगत पहचान उजागर नहीं की जाएगी।</li>
+        </ul>
+        
+        <h3>संभावित जोखिम एवं लाभ</h3>
+        <p>इस अध्ययन में भाग लेने से बहुत ही न्यूनतम जोखिम है। रक्त का नमूना लेने के दौरान हल्की असुविधा या दर्द हो सकता है तथा शारीरिक परीक्षण सरल एवं गैर-आक्रामक (Non-invasive) होगा।</p>
+        <p>प्रश्नावली में पूछे गए प्रश्न आपके स्वास्थ्य एवं जीवनशैली से संबंधित हैं। अध्ययन की गुणवत्ता बनाए रखने के लिए आपसे अनुरोध है कि सभी प्रश्नों का ईमानदारीपूर्वक उत्तर दें। यद्यपि आपको इससे प्रत्यक्ष लाभ प्राप्त न हो, फिर भी आपकी सहभागिता युवा वयस्कों के स्वास्थ्य संबंधी जानकारी को बेहतर समझने तथा भविष्य के अनुसंधान में महत्वपूर्ण योगदान देगी।</p>
+        
+        <h3>स्वैच्छिक सहभागिता एवं अध्ययन से हटने का अधिकार</h3>
+        <p>इस अध्ययन में भाग लेना पूर्णतः आपकी इच्छा पर निर्भर है। प्रश्नावली जमा (Submit) करने से पहले आप किसी भी समय बिना कोई कारण बताए अध्ययन छोड़ सकते हैं।</p>
+        <p>चूँकि यह अध्ययन गुमनाम (Anonymous) है, इसलिए प्रश्नावली जमा करने के बाद आपकी प्रतिक्रियाएँ किसी व्यक्ति से जोड़ी नहीं जा सकतीं। अतः जमा करने के बाद उन्हें वापस लेना या हटाना संभव नहीं होगा।</p>
+        
+        <h3>पात्रता</h3>
+        <p>आप इस अध्ययन में तभी भाग ले सकते हैं यदि:</p>
+        <ul>
+          <li>आपकी आयु 18 से 30 वर्ष के बीच है।</li>
+          <li>आपने ऊपर दी गई जानकारी पढ़ एवं समझ ली है।</li>
+          <li>आप अपनी स्वेच्छा से इस अध्ययन में भाग लेने के लिए सहमत हैं।</li>
+        </ul>
+        
+        <h3>सहमति घोषणा</h3>
+        <p>“मैं सहमत हूँ” विकल्प का चयन करके आगे बढ़ते हुए यह पुष्टि करता/करती हूँ कि:</p>
+        <ul>
+          <li>मेरी आयु 18 से 30 वर्ष के बीच है।</li>
+          <li>मैंने ऊपर दी गई सभी जानकारी पढ़ एवं समझ ली है।</li>
+          <li>मैं समझता/समझती हूँ कि इस अध्ययन में मेरी सहभागिता पूर्णतः स्वैच्छिक है।</li>
+          <li>मैं समझता/समझती हूँ कि मेरी सभी प्रतिक्रियाएँ गुमनाम रहेंगी तथा उनका उपयोग केवल अनुसंधान उद्देश्यों के लिए किया जाएगा।</li>
+          <li>मैं समझता/समझती हूँ कि इस अध्ययन के अंतर्गत मेरा रक्तचाप मापा जाएगा, उपवास रक्त शर्करा एवं HbA1c की जाँच हेतु मेरा एक छोटा रक्त नमूना लिया जाएगा तथा संक्षिप्त शारीरिक परीक्षण किया जाएगा।</li>
+          <li>मैं अपनी स्वेच्छा से इस अध्ययन में भाग लेने के लिए सहमति प्रदान करता/करती हूँ।</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="form-group" style="margin-top: 25px; border-top: 1px solid #dadce0; padding-top: 20px;">
+      <label class="main-label">
+        <span class="lang-en">Please select your response: *</span>
+        <span class="lang-hi">कृपया अपनी प्रतिक्रिया चुनें: *</span>
+      </label>
+      <div class="opt-container">
+        <label class="opt-row">
+          <input type="radio" name="consentOption" value="agree">
+          <span class="lang-en" style="font-weight: 500; color: #1aa260;">I carefully read all above and agree voluntarily to participate</span>
+          <span class="lang-hi" style="font-weight: 500; color: #1aa260;">मैंने उपरोक्त सभी जानकारी ध्यानपूर्वक पढ़ ली है तथा अपनी स्वेच्छा से इस अध्ययन में भाग लेने के लिए सहमत हूँ।</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="consentOption" value="disagree">
+          <span class="lang-en" style="font-weight: 500; color: #d93025;">I Do Not Agree</span>
+          <span class="lang-hi" style="font-weight: 500; color: #d93025;">मैं इस अध्ययन में भाग लेने के लिए सहमत नहीं हूँ।</span>
+        </label>
+      </div>
+    </div>
+    
+    <div id="consent-warning" style="display: none; background-color: #fce8e6; border-left: 4px solid #d93025; padding: 12px; font-size: 14px; border-radius: 4px; margin-bottom: 20px; color: #a51d24; line-height: 1.4;">
+      <span class="lang-en">You must agree to the terms to proceed. If you do not wish to participate, you may close this window.</span>
+      <span class="lang-hi">आगे बढ़ने के लिए आपको शर्तों से सहमत होना होगा। यदि आप भाग नहीं लेना चाहते हैं, तो आप इस विंडो को बंद कर सकते हैं।</span>
+    </div>
+
+    <div style="display: flex; gap: 15px; justify-content: space-between; margin-top: 30px;">
+      <button type="button" class="btn-submit" onclick="goBackToLanguage()" style="background-color: #f1f3f4; color: #3c4043; box-shadow: none; margin-top: 0;">
+        <span class="lang-en">Back</span>
+        <span class="lang-hi">पीछे जाएँ</span>
+      </button>
+      <button type="button" class="btn-submit" onclick="validateConsentAndProceed()" style="margin-top: 0;">
+        <span class="lang-en">Agree & Proceed</span>
+        <span class="lang-hi">सहमत हूँ और आगे बढ़ें</span>
+      </button>
+    </div>
+  </div>
+
+  <form id="questionnaireForm" style="display: none;" onsubmit="executeDataCommit(event)">
+    <h2>
+      <span class="lang-en">Health Survey Questionnaire</span>
+      <span class="lang-hi">स्वास्थ्य सर्वेक्षण प्रश्नावली</span>
+    </h2>
+    <h3>
+      <span class="lang-en">Health Assessment of Young Adults (18-30 Years)<br><strong>Study:</strong> Prevalence of Diabetes & Hypertension via Clinical Assessment</span>
+      <span class="lang-hi">युवा वयस्कों का स्वास्थ्य मूल्यांकन (18-30 वर्ष)<br><strong>अध्ययन:</strong> नैदानिक मूल्यांकन के माध्यम से मधुमेह और उच्च रक्तचाप की व्यापकता</span>
+    </h3>
     
     <div class="alert-box">
-      <strong>⚠️ CRITICAL STEP REQUIRED:</strong><br>
-      Please take a <strong>SCREENSHOT</strong> of this tracking string or document it cleanly now. You must match this identical ID to the checkup team to proceed further.
+      <span class="lang-en">
+        <strong>⚠️ CRITICAL STEP REQUIRED:</strong><br>
+        Please take a <strong>SCREENSHOT</strong> of this tracking string or document it cleanly now. You must match this identical ID to the checkup team to proceed further.
+      </span>
+      <span class="lang-hi">
+        <strong>⚠️ आवश्यक कदम:</strong><br>
+        कृपया इस ट्रैकिंग स्ट्रिंग का एक <strong>स्क्रीनशॉट</strong> लें या इसे अभी सुरक्षित लिख लें। आगे बढ़ने के लिए आपको चेकअप टीम को यही आईडी दिखानी होगी।
+      </span>
     </div>
 
     <div class="form-group">
-      <label class="main-label">Participant Unique Code / Token ID (Locked)</label>
+      <label class="main-label">
+        <span class="lang-en">Participant Unique Code / Token ID (Locked)</span>
+        <span class="lang-hi">प्रतिभागी विशिष्ट कोड / टोकन आईडी (सुरक्षित)</span>
+      </label>
       <input type="text" id="participantId" name="participantId" readonly>
     </div>
 
-    <div class="section-banner">Section 1: Basic Demographics</div>
+    <div class="section-banner">
+      <span class="lang-en">Section 1: Basic Demographics</span>
+      <span class="lang-hi">भाग 1: बुनियादी जनसांख्यिकी</span>
+    </div>
     <div class="form-group">
-      <label class="main-label">1. Age (in completed years) *</label>
+      <label class="main-label">
+        <span class="lang-en">1. Age (in completed years) *</span>
+        <span class="lang-hi">1. आयु (पूर्ण वर्षों में) *</span>
+      </label>
       <select name="age" required>
-        <option value="">Select Age</option>
+        <option value="" data-en="Select Age" data-hi="आयु चुनें">Select Age</option>
         <script>for(var i=18; i<=30; i++) { document.write('<option value="'+i+'">'+i+'</option>'); }</script>
       </select>
     </div>
 
     <div class="form-group">
-      <label class="main-label">2. Gender *</label>
+      <label class="main-label">
+        <span class="lang-en">2. Gender *</span>
+        <span class="lang-hi">2. लिंग *</span>
+      </label>
       <div class="opt-container">
-        <label class="opt-row"><input type="radio" name="gender" value="Male" required onchange="evaluateFemaleTrack(this.value)"> Male</label>
-        <label class="opt-row"><input type="radio" name="gender" value="Female" onchange="evaluateFemaleTrack(this.value)"> Female</label>
-        <label class="opt-row"><input type="radio" name="gender" value="Other" onchange="evaluateFemaleTrack(this.value)"> Other / Prefer not to disclose</label>
+        <label class="opt-row">
+          <input type="radio" name="gender" value="Male" required onchange="evaluateFemaleTrack(this.value)">
+          <span class="lang-en">Male</span>
+          <span class="lang-hi">पुरुष</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="gender" value="Female" onchange="evaluateFemaleTrack(this.value)">
+          <span class="lang-en">Female</span>
+          <span class="lang-hi">महिला</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="gender" value="Other" onchange="evaluateFemaleTrack(this.value)">
+          <span class="lang-en">Other / Prefer not to disclose</span>
+          <span class="lang-hi">अन्य / प्रकट न करना बेहतर</span>
+        </label>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="main-label">3. Are you Residing - *</label>
+      <label class="main-label">
+        <span class="lang-en">3. Are you Residing - *</span>
+        <span class="lang-hi">3. आप कहाँ रह रहे हैं? *</span>
+      </label>
       <div class="opt-container">
-        <label class="opt-row"><input type="radio" name="residing" value="With family" required> With family</label>
-        <label class="opt-row"><input type="radio" name="residing" value="In Hostel"> In Hostel</label>
-        <label class="opt-row"><input type="radio" name="residing" value="In Rented accommodation"> In Rented accommodation</label>
-        <label class="opt-row"><input type="radio" name="residing" value="As Paying guest"> As Paying guest</label>
+        <label class="opt-row">
+          <input type="radio" name="residing" value="With family" required>
+          <span class="lang-en">With family</span>
+          <span class="lang-hi">परिवार के साथ</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="residing" value="In Hostel">
+          <span class="lang-en">In Hostel</span>
+          <span class="lang-hi">छात्रावास में</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="residing" value="In Rented accommodation">
+          <span class="lang-en">In Rented accommodation</span>
+          <span class="lang-hi">किराए के मकान में</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="residing" value="As Paying guest">
+          <span class="lang-en">As Paying guest</span>
+          <span class="lang-hi">पेइंग गेस्ट के रूप में</span>
+        </label>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="main-label">4. Marital Status *</label>
+      <label class="main-label">
+        <span class="lang-en">4. Marital Status *</span>
+        <span class="lang-hi">4. वैवाहिक स्थिति *</span>
+      </label>
       <div class="opt-container">
-        <label class="opt-row"><input type="radio" name="maritalStatus" value="Single" required> Single</label>
-        <label class="opt-row"><input type="radio" name="maritalStatus" value="Married"> Married</label>
+        <label class="opt-row">
+          <input type="radio" name="maritalStatus" value="Single" required>
+          <span class="lang-en">Single</span>
+          <span class="lang-hi">अविवाहित</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="maritalStatus" value="Married">
+          <span class="lang-en">Married</span>
+          <span class="lang-hi">विवाहित</span>
+        </label>
       </div>
     </div>
 
-    <div class="section-banner">Section 2: Diet & Lifestyle Metrics</div>
+    <div class="section-banner">
+      <span class="lang-en">Section 2: Diet & Lifestyle Metrics</span>
+      <span class="lang-hi">भाग 2: आहार और जीवन शैली मीट्रिक</span>
+    </div>
     <div class="form-group">
-      <label class="main-label">5. Type of Diet *</label>
+      <label class="main-label">
+        <span class="lang-en">5. Type of Diet *</span>
+        <span class="lang-hi">5. आहार का प्रकार *</span>
+      </label>
       <div class="opt-container">
-        <label class="opt-row"><input type="radio" name="dietType" value="Vegan Diet" required onchange="evaluateBlockVisibility('m-diet-block', this.value === 'Mixed (Vegetarian + Non-Vegetarian)')"> Vegan Diet</label>
-        <label class="opt-row"><input type="radio" name="dietType" value="Vegetarian" onchange="evaluateBlockVisibility('m-diet-block', this.value === 'Mixed (Vegetarian + Non-Vegetarian)')"> Vegetarian</label>
-        <label class="opt-row"><input type="radio" name="dietType" value="Eggetarian" onchange="evaluateBlockVisibility('m-diet-block', this.value === 'Mixed (Vegetarian + Non-Vegetarian)')"> Eggetarian</label>
-        <label class="opt-row"><input type="radio" name="dietType" value="Mixed (Vegetarian + Non-Vegetarian)" onchange="evaluateBlockVisibility('m-diet-block', this.value === 'Mixed (Vegetarian + Non-Vegetarian)')"> Mixed (Vegetarian + Non-Vegetarian)</label>
+        <label class="opt-row">
+          <input type="radio" name="dietType" value="Vegan Diet" required onchange="evaluateBlockVisibility('m-diet-block', this.value === 'Mixed (Vegetarian + Non-Vegetarian)')">
+          <span class="lang-en">Vegan Diet</span>
+          <span class="lang-hi">शाकाहारी (Vegan) आहार</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="dietType" value="Vegetarian" onchange="evaluateBlockVisibility('m-diet-block', this.value === 'Mixed (Vegetarian + Non-Vegetarian)')">
+          <span class="lang-en">Vegetarian</span>
+          <span class="lang-hi">शाकाहारी (Vegetarian)</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="dietType" value="Eggetarian" onchange="evaluateBlockVisibility('m-diet-block', this.value === 'Mixed (Vegetarian + Non-Vegetarian)')">
+          <span class="lang-en">Eggetarian</span>
+          <span class="lang-hi">अंडाहारी (Eggetarian)</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="dietType" value="Mixed (Vegetarian + Non-Vegetarian)" onchange="evaluateBlockVisibility('m-diet-block', this.value === 'Mixed (Vegetarian + Non-Vegetarian)')">
+          <span class="lang-en">Mixed (Vegetarian + Non-Vegetarian)</span>
+          <span class="lang-hi">मिश्रित (शाकाहारी + मांसाहारी)</span>
+        </label>
       </div>
       
       <div class="conditional-wrapper" id="m-diet-block">
-        <label class="main-label">5.1. If mixed diet, how frequently do you consume non vegetarian diet? *</label>
+        <label class="main-label">
+          <span class="lang-en">5.1. If mixed diet, how frequently do you consume non vegetarian diet? *</span>
+          <span class="lang-hi">5.1. यदि मिश्रित आहार है, तो आप कितनी बार मांसाहारी भोजन का सेवन करते हैं? *</span>
+        </label>
         <select name="mixedDietFreq" id="mixedDietFreq">
-          <option value="">Select Option</option>
-          <option value="5-7 days/week">5-7 days/week</option>
-          <option value="3-4 days/week">3-4 days/week</option>
-          <option value="1-2 days/week">1-2 days/week</option>
-          <option value="< 1 day / week">&lt; 1 day / week</option>
+          <option value="" data-en="Select Option" data-hi="विकल्प चुनें">Select Option</option>
+          <option value="5-7 days/week" data-en="5-7 days/week" data-hi="5-7 दिन/सप्ताह">5-7 days/week</option>
+          <option value="3-4 days/week" data-en="3-4 days/week" data-hi="3-4 दिन/सप्ताह">3-4 days/week</option>
+          <option value="1-2 days/week" data-en="1-2 days/week" data-hi="1-2 दिन/सप्ताह">1-2 days/week</option>
+          <option value="< 1 day / week" data-en="< 1 day / week" data-hi="< 1 दिन/सप्ताह">&lt; 1 day / week</option>
         </select>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="main-label">6. Frequency of Junk Food Consumption (Fast food, Fried food, Street food, Packaged and Processed foods) *</label>
+      <label class="main-label">
+        <span class="lang-en">6. Frequency of Junk Food Consumption (Fast food, Fried food, Street food, Packaged and Processed foods) *</span>
+        <span class="lang-hi">6. जंक फूड के सेवन की आवृत्ति (फास्ट फूड, तला हुआ भोजन, स्ट्रीट फूड, पैकेज्ड और प्रोसेस्ड खाद्य पदार्थ) *</span>
+      </label>
       <select name="junkFoodFreq" required>
-        <option value="">Select Option</option>
-        <option value="5-7 days/week">5-7 days/week</option>
-        <option value="3-4 days/week">3-4 days/week</option>
-        <option value="1-2 days/week">1-2 days/week</option>
-        <option value="< 1 per week">&lt; 1 per week</option>
-        <option value="Never">Never</option>
+        <option value="" data-en="Select Option" data-hi="विकल्प चुनें">Select Option</option>
+        <option value="5-7 days/week" data-en="5-7 days/week" data-hi="5-7 दिन/सप्ताह">5-7 days/week</option>
+        <option value="3-4 days/week" data-en="3-4 days/week" data-hi="3-4 दिन/सप्ताह">3-4 days/week</option>
+        <option value="1-2 days/week" data-en="1-2 days/week" data-hi="1-2 दिन/सप्ताह">1-2 days/week</option>
+        <option value="< 1 per week" data-en="< 1 per week" data-hi="< 1 बार/सप्ताह">&lt; 1 per week</option>
+        <option value="Never" data-en="Never" data-hi="कभी नहीं">Never</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label class="main-label">7. How often do you skip breakfast? *</label>
+      <label class="main-label">
+        <span class="lang-en">7. How often do you skip breakfast? *</span>
+        <span class="lang-hi">7. आप कितनी बार नाश्ता छोड़ते हैं? *</span>
+      </label>
       <select name="skipBreakfast" required>
-        <option value="">Select Option</option>
-        <option value=">5 days/week">&gt;5 days/week</option>
-        <option value="3-5 days/week">3-5 days/week</option>
-        <option value="<3 days/week">&lt;3 days/week</option>
-        <option value="Never">Never</option>
+        <option value="" data-en="Select Option" data-hi="विकल्प चुनें">Select Option</option>
+        <option value=">5 days/week" data-en=">5 days/week" data-hi=">5 दिन/सप्ताह">&gt;5 days/week</option>
+        <option value="3-5 days/week" data-en="3-5 days/week" data-hi="3-5 दिन/सप्ताह">3-5 days/week</option>
+        <option value="<3 days/week" data-en="<3 days/week" data-hi="<3 दिन/सप्ताह">&lt;3 days/week</option>
+        <option value="Never" data-en="Never" data-hi="कभी नहीं">Never</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label class="main-label">8.1. Consumption of Fruits (1 serving = 1 medium apple/Banana/Orange or 1 cup cut fruits but no fruit juice) *</label>
+      <label class="main-label">
+        <span class="lang-en">8.1. Consumption of Fruits (1 serving = 1 medium apple/Banana/Orange or 1 cup cut fruits but no fruit juice) *</span>
+        <span class="lang-hi">8.1. फलों का सेवन (1 सर्विंग = 1 मध्यम सेब/केला/संतरा या 1 कप कटे हुए फल लेकिन फलों का रस नहीं) *</span>
+      </label>
       <select name="fruitConsumption" required>
-        <option value="">Select Option</option>
-        <option value="<1 Serving/day">&lt;1 Serving/day</option>
-        <option value="1-2 Serving/day">1-2 Serving/day</option>
-        <option value="≥3 Serving/day">≥3 Serving/day</option>
+        <option value="" data-en="Select Option" data-hi="विकल्प चुनें">Select Option</option>
+        <option value="<1 Serving/day" data-en="<1 Serving/day" data-hi="<1 सर्विंग/दिन">&lt;1 Serving/day</option>
+        <option value="1-2 Serving/day" data-en="1-2 Serving/day" data-hi="1-2 सर्विंग/दिन">1-2 Serving/day</option>
+        <option value="≥3 Serving/day" data-en="≥3 Serving/day" data-hi="≥3 सर्विंग/दिन">≥3 Serving/day</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label class="main-label">8.2. Consumption of Vegetables (1 cup raw leafy vegetables or half cup cooked vegetables) *</label>
+      <label class="main-label">
+        <span class="lang-en">8.2. Consumption of Vegetables (1 cup raw leafy vegetables or half cup cooked vegetables) *</span>
+        <span class="lang-hi">8.2. सब्जियों का सेवन (1 कप कच्ची पत्तेदार सब्जियां या आधा कप पकी हुई सब्जियां) *</span>
+      </label>
       <select name="vegConsumption" required>
-        <option value="">Select Option</option>
-        <option value="<1 Serving/day">&lt;1 Serving/day</option>
-        <option value="1-2 Serving/day">1-2 Serving/day</option>
-        <option value="≥3 Serving/day">≥3 Serving/day</option>
+        <option value="" data-en="Select Option" data-hi="विकल्प चुनें">Select Option</option>
+        <option value="<1 Serving/day" data-en="<1 Serving/day" data-hi="<1 सर्विंग/दिन">&lt;1 Serving/day</option>
+        <option value="1-2 Serving/day" data-en="1-2 Serving/day" data-hi="1-2 सर्विंग/दिन">1-2 Serving/day</option>
+        <option value="≥3 Serving/day" data-en="≥3 Serving/day" data-hi="≥3 सर्विंग/दिन">≥3 Serving/day</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label class="main-label">9. Intake of sugary drinks (soft drinks, packaged juices) *</label>
+      <label class="main-label">
+        <span class="lang-en">9. Intake of sugary drinks (soft drinks, packaged juices) *</span>
+        <span class="lang-hi">9. मीठे पेय पदार्थों का सेवन (सॉफ्ट ड्रिंक्स, पैकेज्ड जूस) *</span>
+      </label>
       <select name="sugaryDrinks" required>
-        <option value="">Select Option</option>
-        <option value="5-7 days/week">5-7 days/week</option>
-        <option value="3-4 days/week">3-4 days/week</option>
-        <option value="1-2 days/week">1-2 days/week</option>
-        <option value="<1/week">&lt;1/week</option>
-        <option value="Never">Never</option>
+        <option value="" data-en="Select Option" data-hi="विकल्प चुनें">Select Option</option>
+        <option value="5-7 days/week" data-en="5-7 days/week" data-hi="5-7 दिन/सप्ताह">5-7 days/week</option>
+        <option value="3-4 days/week" data-en="3-4 days/week" data-hi="3-4 दिन/सप्ताह">3-4 days/week</option>
+        <option value="1-2 days/week" data-en="1-2 days/week" data-hi="1-2 दिन/सप्ताह">1-2 days/week</option>
+        <option value="<1/week" data-en="<1/week" data-hi="<1/सप्ताह">&lt;1/week</option>
+        <option value="Never" data-en="Never" data-hi="कभी नहीं">Never</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label class="main-label">10. Are you taking any dietary supplements? *</label>
+      <label class="main-label">
+        <span class="lang-en">10. Are you taking any dietary supplements? *</span>
+        <span class="lang-hi">10. क्या आप कोई आहार सप्लीमेंट ले रहे हैं? *</span>
+      </label>
       <div class="opt-container">
-        <label class="opt-row"><input type="radio" name="supplements" value="No" required onchange="evaluateBlockVisibility('supplements-block', this.value === 'Yes')"> No</label>
-        <label class="opt-row"><input type="radio" name="supplements" value="Yes" onchange="evaluateBlockVisibility('supplements-block', this.value === 'Yes')"> Yes (Please specify below)</label>
+        <label class="opt-row">
+          <input type="radio" name="supplements" value="No" required onchange="evaluateBlockVisibility('supplements-block', this.value === 'Yes')">
+          <span class="lang-en">No</span>
+          <span class="lang-hi">नहीं</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="supplements" value="Yes" onchange="evaluateBlockVisibility('supplements-block', this.value === 'Yes')">
+          <span class="lang-en">Yes (Please specify below)</span>
+          <span class="lang-hi">हाँ (कृपया नीचे निर्दिष्ट करें)</span>
+        </label>
       </div>
       
       <div class="conditional-wrapper" id="supplements-block">
-        <label class="main-label">10.1 If YES to supplements, please specify: *</label>
+        <label class="main-label">
+          <span class="lang-en">10.1 If YES to supplements, please specify: *</span>
+          <span class="lang-hi">10.1 यदि सप्लीमेंट के लिए हाँ है, तो कृपया निर्दिष्ट करें: *</span>
+        </label>
         <div class="opt-container">
-          <label class="opt-row"><input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Multivitamin"> Multivitamin</label>
-          <label class="opt-row"><input type="checkbox" name="customSupplementGroup" class="supp-cb" value="B Complex"> B Complex</label>
-          <label class="opt-row"><input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Protein Suppliment"> Protein Supplement</label>
-          <label class="opt-row"><input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Vit. D"> Vit. D</label>
-          <label class="opt-row"><input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Iron"> Iron</label>
-          <label class="opt-row"><input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Ayurvedic / Indigenous"> Ayurvedic / Indigenous</label>
-          <label class="opt-row"><input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Others" onchange="evaluateBlockVisibility('supp-other-block', this.checked)"> Others</label>
+          <label class="opt-row">
+            <input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Multivitamin">
+            <span class="lang-en">Multivitamin</span>
+            <span class="lang-hi">मल्टीविटामिन</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customSupplementGroup" class="supp-cb" value="B Complex">
+            <span class="lang-en">B Complex</span>
+            <span class="lang-hi">बी कॉम्प्लेक्स</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Protein Suppliment">
+            <span class="lang-en">Protein Supplement</span>
+            <span class="lang-hi">प्रोटीन सप्लीमेंट</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Vit. D">
+            <span class="lang-en">Vit. D</span>
+            <span class="lang-hi">विटामिन डी</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Iron">
+            <span class="lang-en">Iron</span>
+            <span class="lang-hi">आयरन</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Ayurvedic / Indigenous">
+            <span class="lang-en">Ayurvedic / Indigenous</span>
+            <span class="lang-hi">आयुर्वेदिक / स्वदेशी</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customSupplementGroup" class="supp-cb" value="Others" onchange="evaluateBlockVisibility('supp-other-block', this.checked)">
+            <span class="lang-en">Others</span>
+            <span class="lang-hi">अन्य</span>
+          </label>
         </div>
         <div class="form-group" id="supp-other-block" style="display:none; margin-top:12px;">
-          <label class="main-label">10.1.1 If others (Please specify): *</label>
+          <label class="main-label">
+            <span class="lang-en">10.1.1 If others (Please specify): *</span>
+            <span class="lang-hi">10.1.1 यदि अन्य (कृपया निर्दिष्ट करें): *</span>
+          </label>
           <input type="text" id="customSupplement" name="customSupplement">
         </div>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="main-label">11. Are you taking any medications for weight gain / weight reduction? *</label>
+      <label class="main-label">
+        <span class="lang-en">11. Are you taking any medications for weight gain / weight reduction? *</span>
+        <span class="lang-hi">11. क्या आप वजन बढ़ाने / वजन घटाने के लिए कोई दवा ले रहे हैं? *</span>
+      </label>
       <div class="opt-container">
-        <label class="opt-row"><input type="radio" name="weightMeds" value="No" required onchange="evaluateBlockVisibility('weight-block', this.value === 'Yes')"> No</label>
-        <label class="opt-row"><input type="radio" name="weightMeds" value="Yes" onchange="evaluateBlockVisibility('weight-block', this.value === 'Yes')"> Yes</label>
+        <label class="opt-row">
+          <input type="radio" name="weightMeds" value="No" required onchange="evaluateBlockVisibility('weight-block', this.value === 'Yes')">
+          <span class="lang-en">No</span>
+          <span class="lang-hi">नहीं</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="weightMeds" value="Yes" onchange="evaluateBlockVisibility('weight-block', this.value === 'Yes')">
+          <span class="lang-en">Yes</span>
+          <span class="lang-hi">हाँ</span>
+        </label>
       </div>
       <div class="conditional-wrapper" id="weight-block">
-        <label class="main-label">11.1 If YES to weight medications, please specify: *</label>
+        <label class="main-label">
+          <span class="lang-en">11.1 If YES to weight medications, please specify: *</span>
+          <span class="lang-hi">11.1 यदि वजन की दवाओं के लिए हाँ है, तो कृपया निर्दिष्ट करें: *</span>
+        </label>
         <input type="text" id="weightMedDetails" name="weightMedDetails">
       </div>
     </div>
 
-    <div class="section-banner">Section 3: Physical Activity & Screen Time Profiles</div>
+    <div class="section-banner">
+      <span class="lang-en">Section 3: Physical Activity & Screen Time Profiles</span>
+      <span class="lang-hi">भाग 3: शारीरिक गतिविधि और स्क्रीन समय प्रोफ़ाइल</span>
+    </div>
     <div class="form-group">
-      <label class="main-label">12. Average physical activity frequency *</label>
-      <select name="physicalActivityFreq" required>
-        <option value="">Select Option</option>
-        <option value="5-7 days/week">5-7 days/week</option>
-        <option value="3-4 days/week">3-4 days/week</option>
-        <option value="1-2 days/week">1-2 days/week</option>
-        <option value="< 01/week">&lt; 01/week</option>
-        <option value="Never">Never</option>
+      <label class="main-label">
+        <span class="lang-en">12. Average physical activity frequency *</span>
+        <span class="lang-hi">12. औसत शारीरिक गतिविधि की आवृत्ति *</span>
+      </label>
+      <select name="physicalActivityFreq" required onchange="evaluatePhysicalActivity(this.value)">
+        <option value="" data-en="Select Option" data-hi="विकल्प चुनें">Select Option</option>
+        <option value="5-7 days/week" data-en="5-7 days/week" data-hi="5-7 दिन/सप्ताह">5-7 days/week</option>
+        <option value="3-4 days/week" data-en="3-4 days/week" data-hi="3-4 दिन/सप्ताह">3-4 days/week</option>
+        <option value="1-2 days/week" data-en="1-2 days/week" data-hi="1-2 दिन/सप्ताह">1-2 days/week</option>
+        <option value="< 01/week" data-en="< 01/week" data-hi="< 01/सप्ताह">&lt; 01/week</option>
+        <option value="Never" data-en="Never" data-hi="कभी नहीं">Never</option>
       </select>
-    </div>
+      
+      <div class="conditional-wrapper" id="physical-activity-details-block">
+        <div class="form-group">
+          <label class="main-label">
+            <span class="lang-en">12.1. Type of Physical Activity (You may select more than one) *</span>
+            <span class="lang-hi">12.1. शारीरिक गतिविधि का प्रकार (आप एक से अधिक चुन सकते हैं) *</span>
+          </label>
+          <div class="opt-container">
+            <label class="opt-row">
+              <input type="checkbox" name="customActivityGroup" class="act-cb" value="Walking">
+              <span class="lang-en">Walking</span>
+              <span class="lang-hi">सैर (Walking)</span>
+            </label>
+            <label class="opt-row">
+              <input type="checkbox" name="customActivityGroup" class="act-cb" value="Running">
+              <span class="lang-en">Running</span>
+              <span class="lang-hi">दौड़ना (Running)</span>
+            </label>
+            <label class="opt-row">
+              <input type="checkbox" name="customActivityGroup" class="act-cb" value="Gym">
+              <span class="lang-en">Gym</span>
+              <span class="lang-hi">जिम (Gym)</span>
+            </label>
+            <label class="opt-row">
+              <input type="checkbox" name="customActivityGroup" class="act-cb" value="Yoga">
+              <span class="lang-en">Yoga</span>
+              <span class="lang-hi">योग (Yoga)</span>
+            </label>
+            <label class="opt-row">
+              <input type="checkbox" name="customActivityGroup" class="act-cb" value="Sports">
+              <span class="lang-en">Sports</span>
+              <span class="lang-hi">खेल (Sports)</span>
+            </label>
+            <label class="opt-row">
+              <input type="checkbox" name="customActivityGroup" class="act-cb" value="Swimming">
+              <span class="lang-en">Swimming</span>
+              <span class="lang-hi">तैरना (Swimming)</span>
+            </label>
+            <label class="opt-row">
+              <input type="checkbox" name="customActivityGroup" class="act-cb" value="Others" onchange="evaluateBlockVisibility('act-other-block', this.checked)">
+              <span class="lang-en">Others</span>
+              <span class="lang-hi">अन्य</span>
+            </label>
+          </div>
+          <div class="conditional-wrapper" id="act-other-block" style="border-left:4px solid #0b57d0; margin-top:10px;">
+            <label class="main-label">
+              <span class="lang-en">12.1.1 If "Others" physical activity, please specify: *</span>
+              <span class="lang-hi">12.1.1 यदि "अन्य" शारीरिक गतिविधि है, तो कृपया निर्दिष्ट करें: *</span>
+            </label>
+            <input type="text" id="customActivity" name="customActivity">
+          </div>
+        </div>
 
-    <div class="form-group">
-      <label class="main-label">12.1. Type of Physical Activity (You may select more than one) *</label>
-      <div class="opt-container">
-        <label class="opt-row"><input type="checkbox" name="customActivityGroup" class="act-cb" value="Walking"> Walking</label>
-        <label class="opt-row"><input type="checkbox" name="customActivityGroup" class="act-cb" value="Running"> Running</label>
-        <label class="opt-row"><input type="checkbox" name="customActivityGroup" class="act-cb" value="Gym"> Gym</label>
-        <label class="opt-row"><input type="checkbox" name="customActivityGroup" class="act-cb" value="Yoga"> Yoga</label>
-        <label class="opt-row"><input type="checkbox" name="customActivityGroup" class="act-cb" value="Sports"> Sports</label>
-        <label class="opt-row"><input type="checkbox" name="customActivityGroup" class="act-cb" value="Swimming"> Swimming</label>
-        <label class="opt-row"><input type="checkbox" name="customActivityGroup" class="act-cb" value="Others" onchange="evaluateBlockVisibility('act-other-block', this.checked)"> Others</label>
+        <div class="form-group" style="margin-top: 15px;">
+          <label class="main-label">
+            <span class="lang-en">12.2. Average duration of such activity per session? *</span>
+            <span class="lang-hi">12.2. प्रति सत्र ऐसी गतिविधि की औसत अवधि? *</span>
+          </label>
+          <select name="sessionDuration" id="sessionDuration">
+            <option value="" data-en="Select Option" data-hi="विकल्प चुनें">Select Option</option>
+            <option value="< 30 min" data-en="< 30 min" data-hi="< 30 मिनट">&lt; 30 min</option>
+            <option value="30-59 Min" data-en="30-59 Min" data-hi="30-59 मिनट">30-59 Min</option>
+            <option value="≥60min" data-en="≥60min" data-hi="≥60 मिनट">≥60min</option>
+          </select>
+        </div>
       </div>
-      <div class="conditional-wrapper" id="act-other-block" style="border-left:4px solid #0b57d0; margin-top:10px;">
-        <label class="main-label">12.2 If "Others" physical activity, please specify: *</label>
-        <input type="text" id="customActivity" name="customActivity">
-      </div>
     </div>
 
     <div class="form-group">
-      <label class="main-label">13. Average duration of such activity per session? *</label>
-      <select name="sessionDuration" required>
-        <option value="">Select Option</option>
-        <option value="< 30 min">&lt; 30 min</option>
-        <option value="30-59 Min">30-59 Min</option>
-        <option value="≥60min">≥60min</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label class="main-label">14. Average daily screen time (mobile/computer/TV/Laptop/Tablet) *</label>
+      <label class="main-label">
+        <span class="lang-en">13. Average daily screen time (mobile/computer/TV/Laptop/Tablet) *</span>
+        <span class="lang-hi">13. औसत दैनिक स्क्रीन समय (मोबाइल/कंप्यूटर/टीवी/लैपटॉप/टैबलेट) *</span>
+      </label>
       <select name="totalScreenTime" required>
-        <option value="">Select Option</option>
-        <option value="< 1 Hours">&lt; 1 Hours</option>
-        <option value="1-2 Hours">1-2 Hours</option>
-        <option value="2-3 hours">2-3 hours</option>
-        <option value="3-4 Hours">3-4 Hours</option>
-        <option value="4-5 Hours">4-5 Hours</option>
-        <option value="> 05 Hours">&gt; 05 Hours</option>
+        <option value="" data-en="Select Option" data-hi="विकल्प चुनें">Select Option</option>
+        <option value="< 1 Hours" data-en="< 1 Hours" data-hi="< 1 घंटा">&lt; 1 Hours</option>
+        <option value="1-2 Hours" data-en="1-2 Hours" data-hi="1-2 घंटे">1-2 Hours</option>
+        <option value="2-3 hours" data-en="2-3 hours" data-hi="2-3 घंटे">2-3 hours</option>
+        <option value="3-4 Hours" data-en="3-4 Hours" data-hi="3-4 घंटे">3-4 Hours</option>
+        <option value="4-5 Hours" data-en="4-5 Hours" data-hi="4-5 घंटे">4-5 Hours</option>
+        <option value="> 05 Hours" data-en="> 05 Hours" data-hi="> 05 घंटे">&gt; 05 Hours</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label class="main-label">15.1 Average daily educational screen time *</label>
+      <label class="main-label">
+        <span class="lang-en">14.1 Average daily educational screen time *</span>
+        <span class="lang-hi">14.1 औसत दैनिक शैक्षिक स्क्रीन समय *</span>
+      </label>
       <select name="eduScreenTime" required>
-        <option value="">Select Option</option>
-        <option value="< 1 Hours">&lt; 1 Hours</option>
-        <option value="1-2 Hours">1-2 Hours</option>
-        <option value="2-3 hours">2-3 hours</option>
-        <option value="3-4 Hours">3-4 Hours</option>
-        <option value="4-5 Hours">4-5 Hours</option>
-        <option value="> 05 Hours">&gt; 05 Hours</option>
+        <option value="" data-en="Select Option" data-hi="विकल्प चुनें">Select Option</option>
+        <option value="< 1 Hours" data-en="< 1 Hours" data-hi="< 1 घंटा">&lt; 1 Hours</option>
+        <option value="1-2 Hours" data-en="1-2 Hours" data-hi="1-2 घंटे">1-2 Hours</option>
+        <option value="2-3 hours" data-en="2-3 hours" data-hi="2-3 घंटे">2-3 hours</option>
+        <option value="3-4 Hours" data-en="3-4 Hours" data-hi="3-4 घंटे">3-4 Hours</option>
+        <option value="4-5 Hours" data-en="4-5 Hours" data-hi="4-5 घंटे">4-5 Hours</option>
+        <option value="> 05 Hours" data-en="> 05 Hours" data-hi="> 05 घंटे">&gt; 05 Hours</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label class="main-label">15.2 Average daily recreational screen time *</label>
+      <label class="main-label">
+        <span class="lang-en">14.2 Average daily recreational screen time *</span>
+        <span class="lang-hi">14.2 औसत दैनिक मनोरंजक स्क्रीन समय *</span>
+      </label>
       <select name="recScreenTime" required>
-        <option value="">Select Option</option>
-        <option value="< 1 Hours">&lt; 1 Hours</option>
-        <option value="1-2 Hours">1-2 Hours</option>
-        <option value="2-3 hours">2-3 hours</option>
-        <option value="3-4 Hours">3-4 Hours</option>
-        <option value="4-5 Hours">4-5 Hours</option>
-        <option value="> 5 Hours">&gt; 5 Hours</option>
+        <option value="" data-en="Select Option" data-hi="विकल्प चुनें">Select Option</option>
+        <option value="< 1 Hours" data-en="< 1 Hours" data-hi="< 1 घंटा">&lt; 1 Hours</option>
+        <option value="1-2 Hours" data-en="1-2 Hours" data-hi="1-2 घंटे">1-2 Hours</option>
+        <option value="2-3 hours" data-en="2-3 hours" data-hi="2-3 घंटे">2-3 hours</option>
+        <option value="3-4 Hours" data-en="3-4 Hours" data-hi="3-4 घंटे">3-4 Hours</option>
+        <option value="4-5 Hours" data-en="4-5 Hours" data-hi="4-5 घंटे">4-5 Hours</option>
+        <option value="> 5 Hours" data-en="> 5 Hours" data-hi="> 5 घंटे">&gt; 5 Hours</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label class="main-label">15.3 Average screen time before sleep *</label>
+      <label class="main-label">
+        <span class="lang-en">14.3 Average screen time before sleep *</span>
+        <span class="lang-hi">14.3 सोने से पहले औसत स्क्रीन समय *</span>
+      </label>
       <select name="sleepScreenTime" required>
-        <option value="">Select Option</option>
-        <option value="< 15 min">&lt; 15 min</option>
-        <option value="15-30 min">15-30 min</option>
-        <option value="30 min-1 Hour">30 min-1 Hour</option>
-        <option value="> 1 Hour">&gt; 1 Hour</option>
+        <option value="" data-en="Select Option" data-hi="विकल्प चुनें">Select Option</option>
+        <option value="< 15 min" data-en="< 15 min" data-hi="< 15 मिनट">&lt; 15 min</option>
+        <option value="15-30 min" data-en="15-30 min" data-hi="15-30 मिनट">15-30 min</option>
+        <option value="30 min-1 Hour" data-en="30 min-1 Hour" data-hi="30 मिनट-1 घंटा">30 min-1 Hour</option>
+        <option value="> 1 Hour" data-en="> 1 Hour" data-hi="> 1 घंटा">&gt; 1 Hour</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label class="main-label">16. Average sleep duration per night (in Hrs.) *</label>
+      <label class="main-label">
+        <span class="lang-en">15. Average sleep duration per night (in Hrs.) *</span>
+        <span class="lang-hi">15. प्रति रात नींद की औसत अवधि (घंटों में) *</span>
+      </label>
       <select name="sleepDuration" required>
-        <option value="">Select Option</option>
-        <option value="Less than 5 hours">Less than 5 hours</option>
-        <option value="5 Hours">5 Hours</option>
-        <option value="6 Hours">6 Hours</option>
-        <option value="7 Hours">7 Hours</option>
-        <option value="8 Hours">8 Hours</option>
-        <option value="9 Hours">9 Hours</option>
-        <option value="10 Hours">10 Hours</option>
-        <option value=">10 Hours">&gt;10 Hours</option>
+        <option value="" data-en="Select Option" data-hi="विकल्प चुनें">Select Option</option>
+        <option value="Less than 5 hours" data-en="Less than 5 hours" data-hi="5 घंटे से कम">Less than 5 hours</option>
+        <option value="5 Hours" data-en="5 Hours" data-hi="5 घंटे">5 Hours</option>
+        <option value="6 Hours" data-en="6 Hours" data-hi="6 घंटे">6 Hours</option>
+        <option value="7 Hours" data-en="7 Hours" data-hi="7 घंटे">7 Hours</option>
+        <option value="8 Hours" data-en="8 Hours" data-hi="8 घंटे">8 Hours</option>
+        <option value="9 Hours" data-en="9 Hours" data-hi="9 घंटे">9 Hours</option>
+        <option value="10 Hours" data-en="10 Hours" data-hi="10 घंटे">10 Hours</option>
+        <option value=">10 Hours" data-en=">10 Hours" data-hi=">10 घंटे">&gt;10 Hours</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label class="main-label">17. Do you feel refreshed after sleep? *</label>
+      <label class="main-label">
+        <span class="lang-en">16. Do you feel refreshed after sleep? *</span>
+        <span class="lang-hi">16. क्या आप नींद के बाद तरोताजा महसूस करते हैं? *</span>
+      </label>
       <select name="feelRefreshed" required>
-        <option value="">Select Option</option>
-        <option value="Always">Always</option>
-        <option value="Often">Often</option>
-        <option value="Sometimes">Sometimes</option>
-        <option value="Rarely">Rarely</option>
+        <option value="" data-en="Select Option" data-hi="विकल्प चुनें">Select Option</option>
+        <option value="Always" data-en="Always" data-hi="हमेशा">Always</option>
+        <option value="Often" data-en="Often" data-hi="अक्सर">Often</option>
+        <option value="Sometimes" data-en="Sometimes" data-hi="कभी-कभी">Sometimes</option>
+        <option value="Rarely" data-en="Rarely" data-hi="शायद ही कभी">Rarely</option>
       </select>
     </div>
 
-    <div class="section-banner">Section 4: Stress Assessment (PSS-4)</div>
+    <div class="section-banner">
+      <span class="lang-en">Section 4: Stress Assessment (PSS-4)</span>
+      <span class="lang-hi">भाग 4: तनाव मूल्यांकन (PSS-4)</span>
+    </div>
     <div class="form-group">
-      <label class="main-label">18.1. In the last 1 month, how often have you felt that you were unable to control the important things in your life? *</label>
+      <label class="main-label">
+        <span class="lang-en">17.1. In the last 1 month, how often have you felt that you were unable to control the important things in your life? *</span>
+        <span class="lang-hi">17.1. पिछले 1 महीने में, आपने कितनी बार महसूस किया कि आप अपने जीवन की महत्वपूर्ण चीजों को नियंत्रित करने में असमर्थ थे? *</span>
+      </label>
       <select name="pss1" required>
-        <option value="">Select Response</option>
-        <option value="Never">Never</option>
-        <option value="Almost Never">Almost Never</option>
-        <option value="Some times">Some times</option>
-        <option value="Fairly often">Fairly often</option>
-        <option value="Very often">Very often</option>
+        <option value="" data-en="Select Response" data-hi="प्रतिक्रिया चुनें">Select Response</option>
+        <option value="Never" data-en="Never" data-hi="कभी नहीं">Never</option>
+        <option value="Almost Never" data-en="Almost Never" data-hi="लगभग कभी नहीं">Almost Never</option>
+        <option value="Some times" data-en="Some times" data-hi="कभी-कभी">Some times</option>
+        <option value="Fairly often" data-en="Fairly often" data-hi="काफी बार">Fairly often</option>
+        <option value="Very often" data-en="Very often" data-hi="बहुत बार">Very often</option>
       </select>
     </div>
     <div class="form-group">
-      <label class="main-label">18.2. In the last 1 month, how often have you felt confident about your ability to handle your personal problems? (Reverse scored) *</label>
+      <label class="main-label">
+        <span class="lang-en">17.2. In the last 1 month, how often have you felt confident about your ability to handle your personal problems? (Reverse scored) *</span>
+        <span class="lang-hi">17.2. पिछले 1 महीने में, आपने अपनी व्यक्तिगत समस्याओं को संभालने की अपनी क्षमता के बारे में कितनी बार आश्वस्त महसूस किया है? (Reverse scored) *</span>
+      </label>
       <select name="pss2" required>
-        <option value="">Select Response</option>
-        <option value="Never">Never</option>
-        <option value="Almost Never">Almost Never</option>
-        <option value="Some times">Some times</option>
-        <option value="Fairly often">Fairly often</option>
-        <option value="Very often">Very often</option>
+        <option value="" data-en="Select Response" data-hi="प्रतिक्रिया चुनें">Select Response</option>
+        <option value="Never" data-en="Never" data-hi="कभी नहीं">Never</option>
+        <option value="Almost Never" data-en="Almost Never" data-hi="लगभग कभी नहीं">Almost Never</option>
+        <option value="Some times" data-en="Some times" data-hi="कभी-कभी">Some times</option>
+        <option value="Fairly often" data-en="Fairly often" data-hi="काफी बार">Fairly often</option>
+        <option value="Very often" data-en="Very often" data-hi="बहुत बार">Very often</option>
       </select>
     </div>
     <div class="form-group">
-      <label class="main-label">18.3. In the last 1 month, how often have you felt that things were going your way? (Reverse scored) *</label>
+      <label class="main-label">
+        <span class="lang-en">17.3. In the last 1 month, how often have you felt that things were going your way? (Reverse scored) *</span>
+        <span class="lang-hi">17.3. पिछले 1 महीने में, आपने कितनी बार महसूस किया कि चीजें आपके अनुकूल चल रही थीं? (Reverse scored) *</span>
+      </label>
       <select name="pss3" required>
-        <option value="">Select Response</option>
-        <option value="Never">Never</option>
-        <option value="Almost Never">Almost Never</option>
-        <option value="Some times">Some times</option>
-        <option value="Fairly often">Fairly often</option>
-        <option value="Very often">Very often</option>
+        <option value="" data-en="Select Response" data-hi="प्रतिक्रिया चुनें">Select Response</option>
+        <option value="Never" data-en="Never" data-hi="कभी नहीं">Never</option>
+        <option value="Almost Never" data-en="Almost Never" data-hi="लगभग कभी नहीं">Almost Never</option>
+        <option value="Some times" data-en="Some times" data-hi="कभी-कभी">Some times</option>
+        <option value="Fairly often" data-en="Fairly often" data-hi="काफी बार">Fairly often</option>
+        <option value="Very often" data-en="Very often" data-hi="बहुत बार">Very often</option>
       </select>
     </div>
     <div class="form-group">
-      <label class="main-label">18.4. In the last 1 month, how often have you felt that difficulties were piling up so high that you could not overcome them? *</label>
+      <label class="main-label">
+        <span class="lang-en">17.4. In the last 1 month, how often have you felt that difficulties were piling up so high that you could not overcome them? *</span>
+        <span class="lang-hi">17.4. पिछले 1 महीने में, आपने कितनी बार महसूस किया कि कठिनाइयां इतनी बढ़ गई थीं कि आप उन्हें पार नहीं कर सकते थे? *</span>
+      </label>
       <select name="pss4" required>
-        <option value="">Select Response</option>
-        <option value="Never">Never</option>
-        <option value="Almost Never">Almost Never</option>
-        <option value="Some times">Some times</option>
-        <option value="Fairly often">Fairly often</option>
-        <option value="Very often">Very often</option>
+        <option value="" data-en="Select Response" data-hi="प्रतिक्रिया चुनें">Select Response</option>
+        <option value="Never" data-en="Never" data-hi="कभी नहीं">Never</option>
+        <option value="Almost Never" data-en="Almost Never" data-hi="लगभग कभी नहीं">Almost Never</option>
+        <option value="Some times" data-en="Some times" data-hi="कभी-कभी">Some times</option>
+        <option value="Fairly often" data-en="Fairly often" data-hi="काफी बार">Fairly often</option>
+        <option value="Very often" data-en="Very often" data-hi="बहुत बार">Very often</option>
       </select>
     </div>
 
-    <div class="section-banner">Section 5: Substance Use & Health History</div>
+    <div class="section-banner">
+      <span class="lang-en">Section 5: Substance Use & Health History</span>
+      <span class="lang-hi">भाग 5: मादक द्रव्यों का सेवन और स्वास्थ्य इतिहास</span>
+    </div>
     <div class="form-group">
-      <label class="main-label">19. Tobacco use (smoking/chewing/sniffing) *</label>
+      <label class="main-label">
+        <span class="lang-en">18. Tobacco use (smoking/chewing/sniffing) *</span>
+        <span class="lang-hi">18. तंबाकू का उपयोग (धूम्रपान/चबाना/सूंघना) *</span>
+      </label>
       <div class="opt-container">
-        <label class="opt-row"><input type="radio" name="tobaccoUse" value="Never" required onchange="evaluateBlockVisibility('tobacco-block', this.value !== 'Never')"> Never</label>
-        <label class="opt-row"><input type="radio" name="tobaccoUse" value="Former" onchange="evaluateBlockVisibility('tobacco-block', this.value !== 'Never')"> Former</label>
-        <label class="opt-row"><input type="radio" name="tobaccoUse" value="Yes" onchange="evaluateBlockVisibility('tobacco-block', this.value !== 'Never')"> Yes</label>
+        <label class="opt-row">
+          <input type="radio" name="tobaccoUse" value="Never" required onchange="evaluateBlockVisibility('tobacco-block', this.value !== 'Never')">
+          <span class="lang-en">Never</span>
+          <span class="lang-hi">कभी नहीं</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="tobaccoUse" value="Former" onchange="evaluateBlockVisibility('tobacco-block', this.value !== 'Never')">
+          <span class="lang-en">Former</span>
+          <span class="lang-hi">पूर्व उपयोगकर्ता</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="tobaccoUse" value="Yes" onchange="evaluateBlockVisibility('tobacco-block', this.value !== 'Never')">
+          <span class="lang-en">Yes</span>
+          <span class="lang-hi">हाँ</span>
+        </label>
       </div>
       <div class="conditional-wrapper" id="tobacco-block">
-        <div class="form-group"><label class="main-label">19.1 Specify mode of intake: *</label><input type="text" id="tobaccoMode" name="tobaccoMode"></div>
-        <div class="form-group"><label class="main-label">19.2 Specify frequency: *</label><input type="text" id="tobaccoFreq" name="tobaccoFreq"></div>
-        <div class="form-group"><label class="main-label">19.3 Quantity per session: *</label><input type="text" id="tobaccoQty" name="tobaccoQty"></div>
+        <div class="form-group">
+          <label class="main-label">
+            <span class="lang-en">18.1 Specify mode of intake (You may select more than one): *</span>
+            <span class="lang-hi">18.1 सेवन का तरीका निर्दिष्ट करें (आप एक से अधिक चुन सकते हैं): *</span>
+          </label>
+          <select name="tobaccoMode" id="tobaccoMode" multiple>
+            <option value="Smoking" data-en="Smoking" data-hi="धूम्रपान (Smoking)">Smoking</option>
+            <option value="Chewing" data-en="Chewing" data-hi="चबाना (Chewing)">Chewing</option>
+            <option value="Sniffing" data-en="Sniffing" data-hi="सूंघना (Sniffing)">Sniffing</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="main-label">
+            <span class="lang-en">18.2 Specify frequency: *</span>
+            <span class="lang-hi">18.2 आवृत्ति निर्दिष्ट करें: *</span>
+          </label>
+          <select name="tobaccoFreq" id="tobaccoFreq">
+            <option value="" data-en="Select Frequency" data-hi="आवृत्ति चुनें">Select Frequency</option>
+            <option value="<1/day" data-en="<1/day" data-hi="<1/दिन">&lt;1/day</option>
+            <option value="1-5/day" data-en="1-5/day" data-hi="1-5/दिन">1-5/day</option>
+            <option value="5-10/day" data-en="5-10/day" data-hi="5-10/दिन">5-10/day</option>
+            <option value=">10/day" data-en=">10/day" data-hi=">10/दिन">&gt;10/day</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="main-label">
+            <span class="lang-en">18.3 Quantity per session: *</span>
+            <span class="lang-hi">18.3 प्रति सत्र मात्रा: *</span>
+          </label>
+          <input type="text" id="tobaccoQty" name="tobaccoQty">
+        </div>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="main-label">20. Alcohol consumption *</label>
+      <label class="main-label">
+        <span class="lang-en">19. Alcohol consumption *</span>
+        <span class="lang-hi">19. शराब का सेवन *</span>
+      </label>
       <div class="opt-container">
-        <label class="opt-row"><input type="radio" name="alcoholUse" value="Never" required onchange="evaluateBlockVisibility('alcohol-block', this.value !== 'Never')"> Never</label>
-        <label class="opt-row"><input type="radio" name="alcoholUse" value="Former" onchange="evaluateBlockVisibility('alcohol-block', this.value !== 'Never')"> Former</label>
-        <label class="opt-row"><input type="radio" name="alcoholUse" value="Yes" onchange="evaluateBlockVisibility('alcohol-block', this.value !== 'Never')"> Yes</label>
+        <label class="opt-row">
+          <input type="radio" name="alcoholUse" value="Never" required onchange="evaluateBlockVisibility('alcohol-block', this.value !== 'Never')">
+          <span class="lang-en">Never</span>
+          <span class="lang-hi">कभी नहीं</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="alcoholUse" value="Former" onchange="evaluateBlockVisibility('alcohol-block', this.value !== 'Never')">
+          <span class="lang-en">Former</span>
+          <span class="lang-hi">पूर्व उपयोगकर्ता</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="alcoholUse" value="Yes" onchange="evaluateBlockVisibility('alcohol-block', this.value !== 'Never')">
+          <span class="lang-en">Yes</span>
+          <span class="lang-hi">हाँ</span>
+        </label>
       </div>
       <div class="conditional-wrapper" id="alcohol-block">
-        <div class="form-group"><label class="main-label">20.1 Type of Alcohol consumption (Beer/Rum/Vodka/Whiskey/Gin/Wine): *</label><input type="text" id="alcoholType" name="alcoholType"></div>
-        <div class="form-group"><label class="main-label">20.2 Consumption amount per session (Pegs/ml): *</label><input type="text" id="alcoholQty" name="alcoholQty"></div>
-        <div class="form-group"><label class="main-label">20.3 No. of such sessions per week: *</label><input type="text" id="alcoholSessions" name="alcoholSessions"></div>
+        <div class="form-group">
+          <label class="main-label">
+            <span class="lang-en">19.1 Type of Alcohol consumption (Beer/Rum/Vodka/Whiskey/Gin/Wine): *</span>
+            <span class="lang-hi">19.1 शराब के सेवन का प्रकार (बीयर/रम/वोदका/व्हिस्की/जिन/वाइन): *</span>
+          </label>
+          <input type="text" id="alcoholType" name="alcoholType">
+        </div>
+        <div class="form-group">
+          <label class="main-label">
+            <span class="lang-en">19.2 Consumption amount per session (Pegs/ml): *</span>
+            <span class="lang-hi">19.2 प्रति सत्र खपत की मात्रा (Pegs/ml): *</span>
+          </label>
+          <select name="alcoholQty" id="alcoholQty">
+            <option value="" data-en="Select Amount" data-hi="मात्रा चुनें">Select Amount</option>
+            <option value="30 ml" data-en="30 ml" data-hi="30 मिलीलीटर (30 ml)">30 ml</option>
+            <option value="60 ml" data-en="60 ml" data-hi="60 मिलीलीटर (60 ml)">60 ml</option>
+            <option value="90 ml" data-en="90 ml" data-hi="90 मिलीलीटर (90 ml)">90 ml</option>
+            <option value="120 ml" data-en="120 ml" data-hi="120 मिलीलीटर (120 ml)">120 ml</option>
+            <option value="180 ml" data-en="180 ml" data-hi="180 मिलीलीटर (180 ml)">180 ml</option>
+            <option value=">180 ml" data-en=">180 ml" data-hi=">180 मिलीलीटर (>180 ml)">&gt;180 ml</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="main-label">
+            <span class="lang-en">19.3 No. of such sessions per week: *</span>
+            <span class="lang-hi">19.3 प्रति सप्ताह ऐसे सत्रों की संख्या: *</span>
+          </label>
+          <select name="alcoholSessions" id="alcoholSessions">
+            <option value="" data-en="Select Sessions" data-hi="सत्र चुनें">Select Sessions</option>
+            <option value="1" data-en="1" data-hi="1">1</option>
+            <option value="2" data-en="2" data-hi="2">2</option>
+            <option value="3" data-en="3" data-hi="3">3</option>
+            <option value="4" data-en="4" data-hi="4">4</option>
+            <option value=">4" data-en=">4" data-hi=">4">&gt;4</option>
+          </select>
+        </div>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="main-label">21. Use of other substances / Any other addiction *</label>
+      <label class="main-label">
+        <span class="lang-en">20. Use of other substances / Any other addiction *</span>
+        <span class="lang-hi">20. अन्य पदार्थों का उपयोग / कोई अन्य व्यसन *</span>
+      </label>
       <div class="opt-container">
-        <label class="opt-row"><input type="radio" name="substanceProfile" value="Never" required onchange="evaluateBlockVisibility('substance-block', this.value !== 'Never')"> Never</label>
-        <label class="opt-row"><input type="radio" name="substanceProfile" value="Former" onchange="evaluateBlockVisibility('substance-block', this.value !== 'Never')"> Former</label>
-        <label class="opt-row"><input type="radio" name="substanceProfile" value="Yes" onchange="evaluateBlockVisibility('substance-block', this.value !== 'Never')"> Yes</label>
+        <label class="opt-row">
+          <input type="radio" name="substanceProfile" value="Never" required onchange="evaluateBlockVisibility('substance-block', this.value !== 'Never')">
+          <span class="lang-en">Never</span>
+          <span class="lang-hi">कभी नहीं</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="substanceProfile" value="Former" onchange="evaluateBlockVisibility('substance-block', this.value !== 'Never')">
+          <span class="lang-en">Former</span>
+          <span class="lang-hi">पूर्व उपयोगकर्ता</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="substanceProfile" value="Yes" onchange="evaluateBlockVisibility('substance-block', this.value !== 'Never')">
+          <span class="lang-en">Yes</span>
+          <span class="lang-hi">हाँ</span>
+        </label>
       </div>
       <div class="conditional-wrapper" id="substance-block">
-        <label class="main-label">21.1 Please select the relevant parameters: *</label>
+        <label class="main-label">
+          <span class="lang-en">20.1 Please select the relevant parameters: *</span>
+          <span class="lang-hi">20.1 कृपया प्रासंगिक मापदंडों का चयन करें: *</span>
+        </label>
         <div class="opt-container">
-          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Vaping"> Vaping</label>
-          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Marijuana/Ganja"> Marijuana/Ganja</label>
-          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Weed"> Weed</label>
-          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Bhang"> Bhang</label>
-          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Doda/Afeem"> Doda/Afeem</label>
-          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Sleeping pills"> Sleeping pills</label>
-          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Pain killers"> Pain killers</label>
-          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Cough syrup"> Cough syrup</label>
-          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="MDMA"> MDMA</label>
-          <label class="opt-row"><input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Any other" onchange="evaluateBlockVisibility('sub-other-block', this.checked)"> Any other</label>
+          <label class="opt-row">
+            <input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Vaping">
+            <span class="lang-en">Vaping</span>
+            <span class="lang-hi">वेपिंग (Vaping)</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Marijuana/Ganja">
+            <span class="lang-en">Marijuana/Ganja</span>
+            <span class="lang-hi">मारिहुआना/गांजा</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Weed">
+            <span class="lang-en">Weed</span>
+            <span class="lang-hi">वीड (Weed)</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Bhang">
+            <span class="lang-en">Bhang</span>
+            <span class="lang-hi">भांग</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Doda/Afeem">
+            <span class="lang-en">Doda/Afeem</span>
+            <span class="lang-hi">डोडा/अफीम</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Sleeping pills">
+            <span class="lang-en">Sleeping pills</span>
+            <span class="lang-hi">नींद की गोलियां</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Pain killers">
+            <span class="lang-en">Pain killers</span>
+            <span class="lang-hi">दर्द निवारक</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Cough syrup">
+            <span class="lang-en">Cough syrup</span>
+            <span class="lang-hi">खांसी की दवाई (Cough syrup)</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="MDMA">
+            <span class="lang-en">MDMA</span>
+            <span class="lang-hi">एमडीएमए (MDMA)</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customSubstanceGroup" class="sub-cb" value="Any other" onchange="evaluateBlockVisibility('sub-other-block', this.checked)">
+            <span class="lang-en">Any other</span>
+            <span class="lang-hi">कोई अन्य</span>
+          </label>
         </div>
         <div class="form-group" id="sub-other-block" style="display:none; margin-top:12px;">
-          <label class="main-label">21.2 If any other (please specify):</label>
+          <label class="main-label">
+            <span class="lang-en">20.2 If any other (please specify):</span>
+            <span class="lang-hi">20.2 यदि कोई अन्य (कृपया निर्दिष्ट करें):</span>
+          </label>
           <input type="text" id="customSubstance" name="customSubstance">
         </div>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="main-label">22. Have you ever been diagnosed with any chronic illness? *</label>
+      <label class="main-label">
+        <span class="lang-en">21. Have you ever been diagnosed with any chronic illness? *</span>
+        <span class="lang-hi">21. क्या आपको कभी किसी पुरानी बीमारी (Chronic Illness) का पता चला है? *</span>
+      </label>
       <div class="opt-container">
-        <label class="opt-row"><input type="radio" name="chronicIllness" value="No" required onchange="evaluateBlockVisibility('chronic-block', this.value === 'Yes')"> No</label>
-        <label class="opt-row"><input type="radio" name="chronicIllness" value="Yes" onchange="evaluateBlockVisibility('chronic-block', this.value === 'Yes')"> Yes</label>
+        <label class="opt-row">
+          <input type="radio" name="chronicIllness" value="No" required onchange="evaluateBlockVisibility('chronic-block', this.value === 'Yes')">
+          <span class="lang-en">No</span>
+          <span class="lang-hi">नहीं</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="chronicIllness" value="Yes" onchange="evaluateBlockVisibility('chronic-block', this.value === 'Yes')">
+          <span class="lang-en">Yes</span>
+          <span class="lang-hi">हाँ</span>
+        </label>
       </div>
       <div class="conditional-wrapper" id="chronic-block">
-        <label class="main-label">22.1 If YES to chronic illness, please specify: *</label>
+        <label class="main-label">
+          <span class="lang-en">21.1 If YES to chronic illness, please specify: *</span>
+          <span class="lang-hi">21.1 यदि पुरानी बीमारी के लिए हाँ है, तो कृपया निर्दिष्ट करें: *</span>
+        </label>
         <div class="opt-container">
-          <label class="opt-row"><input type="checkbox" name="customChronicGroup" class="chr-cb" value="BP"> BP</label>
-          <label class="opt-row"><input type="checkbox" name="customChronicGroup" class="chr-cb" value="Diabetes Mellitus"> Diabetes Mellitus</label>
-          <label class="opt-row"><input type="checkbox" name="customChronicGroup" class="chr-cb" value="Joint disorders"> Joint disorders</label>
-          <label class="opt-row"><input type="checkbox" name="customChronicGroup" class="chr-cb" value="PCOS/PCOD"> PCOS/PCOD (if female gender)</label>
-          <label class="opt-row"><input type="checkbox" name="customChronicGroup" class="chr-cb" value="Malignancy / cancer"> Malignancy / cancer</label>
-          <label class="opt-row"><input type="checkbox" name="customChronicGroup" class="chr-cb" value="Seizure/Epilepsy"> Seizure/Epilepsy</label>
-          <label class="opt-row"><input type="checkbox" name="customChronicGroup" class="chr-cb" value="Any other"> Any other</label>
+          <label class="opt-row">
+            <input type="checkbox" name="customChronicGroup" class="chr-cb" value="BP">
+            <span class="lang-en">BP</span>
+            <span class="lang-hi">बीपी (BP)</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customChronicGroup" class="chr-cb" value="Diabetes Mellitus">
+            <span class="lang-en">Diabetes Mellitus</span>
+            <span class="lang-hi">मधुमेह (Diabetes Mellitus)</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customChronicGroup" class="chr-cb" value="Joint disorders">
+            <span class="lang-en">Joint disorders</span>
+            <span class="lang-hi">जोड़ों के विकार</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customChronicGroup" class="chr-cb" value="PCOS/PCOD">
+            <span class="lang-en">PCOS/PCOD (if female gender)</span>
+            <span class="lang-hi">पीसीओएस/पीसीओडी (PCOS/PCOD) (यदि महिला लिंग है)</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customChronicGroup" class="chr-cb" value="Malignancy / cancer">
+            <span class="lang-en">Malignancy / cancer</span>
+            <span class="lang-hi">घातकता / कैंसर</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customChronicGroup" class="chr-cb" value="Seizure/Epilepsy">
+            <span class="lang-en">Seizure/Epilepsy</span>
+            <span class="lang-hi">दौरा/मिर्गी</span>
+          </label>
+          <label class="opt-row">
+            <input type="checkbox" name="customChronicGroup" class="chr-cb" value="Any other">
+            <span class="lang-en">Any other</span>
+            <span class="lang-hi">कोई अन्य</span>
+          </label>
         </div>
         <div class="form-group" style="margin-top:12px;">
-          <label class="main-label">22.2 Are you undergoing treatment for that and since when? *</label>
-          <input type="text" id="chronicTreatment" name="chronicTreatment">
+          <label class="main-label">
+            <span class="lang-en">21.2 Are you undergoing treatment for that? *</span>
+            <span class="lang-hi">21.2 क्या आप उसके लिए उपचार करा रहे हैं? *</span>
+          </label>
+          <div class="opt-container">
+            <label class="opt-row">
+              <input type="radio" name="chronicTreatment" value="Yes">
+              <span class="lang-en">Yes</span>
+              <span class="lang-hi">हाँ</span>
+            </label>
+            <label class="opt-row">
+              <input type="radio" name="chronicTreatment" value="No">
+              <span class="lang-en">No</span>
+              <span class="lang-hi">नहीं</span>
+            </label>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="main-label">23. Family history of the following diseases in first degree relative *</label>
+      <label class="main-label">
+        <span class="lang-en">22. Family history of the following diseases in first degree relative *</span>
+        <span class="lang-hi">22. प्रथम श्रेणी के रिश्तेदार में निम्नलिखित बीमारियों का पारिवारिक इतिहास *</span>
+      </label>
       <div class="opt-container">
-        <label class="opt-row"><input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Diabetes Mellitus"> Diabetes Mellitus</label>
-        <label class="opt-row"><input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Hypertension"> Hypertension</label>
-        <label class="opt-row"><input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Heart disease"> Heart disease</label>
-        <label class="opt-row"><input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Stroke/Paralysis"> Stroke/Paralysis</label>
-        <label class="opt-row"><input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Malignancy/cancer"> Malignancy/cancer</label>
-        <label class="opt-row"><input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Any other" onchange="evaluateBlockVisibility('fam-other-block', this.checked)"> Any other</label>
-        <label class="opt-row"><input type="checkbox" name="customFamilyGroup" class="fam-cb" value="None"> None</label>
+        <label class="opt-row">
+          <input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Diabetes Mellitus">
+          <span class="lang-en">Diabetes Mellitus</span>
+          <span class="lang-hi">मधुमेह (Diabetes Mellitus)</span>
+        </label>
+        <label class="opt-row">
+          <input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Hypertension">
+          <span class="lang-en">Hypertension</span>
+          <span class="lang-hi">उच्च रक्तचाप (Hypertension)</span>
+        </label>
+        <label class="opt-row">
+          <input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Heart disease">
+          <span class="lang-en">Heart disease</span>
+          <span class="lang-hi">हृदय रोग</span>
+        </label>
+        <label class="opt-row">
+          <input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Stroke/Paralysis">
+          <span class="lang-en">Stroke/Paralysis</span>
+          <span class="lang-hi">स्ट्रोक/लकवा</span>
+        </label>
+        <label class="opt-row">
+          <input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Malignancy/cancer">
+          <span class="lang-en">Malignancy/cancer</span>
+          <span class="lang-hi">घातकता/कैंसर</span>
+        </label>
+        <label class="opt-row">
+          <input type="checkbox" name="customFamilyGroup" class="fam-cb" value="Any other" onchange="evaluateBlockVisibility('fam-other-block', this.checked)">
+          <span class="lang-en">Any other</span>
+          <span class="lang-hi">कोई अन्य</span>
+        </label>
+        <label class="opt-row">
+          <input type="checkbox" name="customFamilyGroup" class="fam-cb" value="None">
+          <span class="lang-en">None</span>
+          <span class="lang-hi">कोई नहीं</span>
+        </label>
       </div>
       <div class="conditional-wrapper" id="fam-other-block" style="border-left:4px solid #0b57d0; margin-top:10px;">
-        <label class="main-label">23.1 If selected any other, please specify: *</label>
+        <label class="main-label">
+          <span class="lang-en">22.1 If selected any other, please specify: *</span>
+          <span class="lang-hi">22.1 यदि कोई अन्य चुना गया है, तो कृपया निर्दिष्ट करें: *</span>
+        </label>
         <input type="text" id="customFamilyHistory" name="customFamilyHistory">
       </div>
     </div>
 
     <div class="form-group">
-      <label class="main-label">24. Any history of death in first degree relative because of heart attack/stroke (Paralysis)/cancer *</label>
+      <label class="main-label">
+        <span class="lang-en">23. Any history of death in first degree relative because of heart attack/stroke (Paralysis)/cancer *</span>
+        <span class="lang-hi">23. हृदय घात/स्ट्रोक (लकवा)/कैंसर के कारण प्रथम श्रेणी के रिश्तेदार की मृत्यु का कोई इतिहास *</span>
+      </label>
       <div class="opt-container">
-        <label class="opt-row"><input type="radio" name="familyDeath" value="No" required> No</label>
-        <label class="opt-row"><input type="radio" name="familyDeath" value="Yes"> Yes</label>
+        <label class="opt-row">
+          <input type="radio" name="familyDeath" value="No" required>
+          <span class="lang-en">No</span>
+          <span class="lang-hi">नहीं</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="familyDeath" value="Yes">
+          <span class="lang-en">Yes</span>
+          <span class="lang-hi">हाँ</span>
+        </label>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="main-label">25. Family Income *</label>
+      <label class="main-label">
+        <span class="lang-en">24. Family Income *</span>
+        <span class="lang-hi">24. पारिवारिक आय *</span>
+      </label>
       <div class="opt-container">
-        <label class="opt-row"><input type="radio" name="familyIncome" value="Less than Rs. 10,000 per month" required> Less than Rs. 10,000 per month</label>
-        <label class="opt-row"><input type="radio" name="familyIncome" value="Rs. 11,000-25,000 per month"> Rs. 11,000-25,000 per month</label>
-        <label class="opt-row"><input type="radio" name="familyIncome" value="Rs. 26,000-50,000 per month"> Rs. 26,000-50,000 per month</label>
-        <label class="opt-row"><input type="radio" name="familyIncome" value="More than Rs. 50,000 per month"> More than Rs. 50,000 per month</label>
+        <label class="opt-row">
+          <input type="radio" name="familyIncome" value="Less than Rs. 10,000 per month" required>
+          <span class="lang-en">Less than Rs. 10,000 per month</span>
+          <span class="lang-hi">रु. 10,000 प्रति माह से कम</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="familyIncome" value="Rs. 11,000-25,000 per month">
+          <span class="lang-en">Rs. 11,000-25,000 per month</span>
+          <span class="lang-hi">रु. 11,000-25,000 प्रति माह</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="familyIncome" value="Rs. 26,000-50,000 per month">
+          <span class="lang-en">Rs. 26,000-50,000 per month</span>
+          <span class="lang-hi">रु. 26,000-50,000 प्रति माह</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="familyIncome" value="More than Rs. 50,000 per month">
+          <span class="lang-en">More than Rs. 50,000 per month</span>
+          <span class="lang-hi">रु. 50,000 प्रति माह से अधिक</span>
+        </label>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="main-label">26. Have you experienced unexpected weight gain recently (in last 06 months)? *</label>
+      <label class="main-label">
+        <span class="lang-en">25. Have you experienced unexpected weight gain recently (in last 06 months)? *</span>
+        <span class="lang-hi">25. क्या आपने हाल ही में (पिछले 06 महीनों में) अप्रत्याशित वजन बढ़ने का अनुभव किया है? *</span>
+      </label>
       <div class="opt-container">
-        <label class="opt-row"><input type="radio" name="weightGain" value="Yes" required> Yes</label>
-        <label class="opt-row"><input type="radio" name="weightGain" value="No"> No</label>
+        <label class="opt-row">
+          <input type="radio" name="weightGain" value="Yes" required>
+          <span class="lang-en">Yes</span>
+          <span class="lang-hi">हाँ</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="weightGain" value="No">
+          <span class="lang-en">No</span>
+          <span class="lang-hi">नहीं</span>
+        </label>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="main-label">27. Have you experienced unintentional weight loss recently? (in last 06 months) *</label>
+      <label class="main-label">
+        <span class="lang-en">26. Have you experienced unintentional weight loss recently? (in last 06 months) *</span>
+        <span class="lang-hi">26. क्या आपने हाल ही में (पिछले 06 महीनों में) अनजाने में वजन घटने का अनुभव किया है? *</span>
+      </label>
       <div class="opt-container">
-        <label class="opt-row"><input type="radio" name="weightLoss" value="Yes" required> Yes</label>
-        <label class="opt-row"><input type="radio" name="weightLoss" value="No"> No</label>
+        <label class="opt-row">
+          <input type="radio" name="weightLoss" value="Yes" required>
+          <span class="lang-en">Yes</span>
+          <span class="lang-hi">हाँ</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="weightLoss" value="No">
+          <span class="lang-en">No</span>
+          <span class="lang-hi">नहीं</span>
+        </label>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="main-label">28. Have you ever proactively get your health checkup done in past one year without any symptoms? *</label>
+      <label class="main-label">
+        <span class="lang-en">27. Have you ever proactively get your health checkup done in past one year without any symptoms? *</span>
+        <span class="lang-hi">27. क्या आपने पिछले एक वर्ष में बिना किसी लक्षण के सक्रिय रूप से अपना स्वास्थ्य परीक्षण कराया है? *</span>
+      </label>
       <div class="opt-container">
-        <label class="opt-row"><input type="radio" name="proactiveCheckup" value="Yes" required> Yes</label>
-        <label class="opt-row"><input type="radio" name="proactiveCheckup" value="No"> No</label>
+        <label class="opt-row">
+          <input type="radio" name="proactiveCheckup" value="Yes" required>
+          <span class="lang-en">Yes</span>
+          <span class="lang-hi">हाँ</span>
+        </label>
+        <label class="opt-row">
+          <input type="radio" name="proactiveCheckup" value="No">
+          <span class="lang-en">No</span>
+          <span class="lang-hi">नहीं</span>
+        </label>
       </div>
     </div>
 
     <div id="gated-female-track" style="display: none;">
-      <div class="section-banner">Section 6: Female Participant Assessment</div>
+      <div class="section-banner">
+        <span class="lang-en">Section 6: Female Participant Assessment</span>
+        <span class="lang-hi">भाग 6: महिला प्रतिभागी मूल्यांकन</span>
+      </div>
       
       <div class="form-group">
-        <label class="main-label">29. At what age did you get your first menstrual period? *</label>
+        <label class="main-label">
+          <span class="lang-en">28. At what age did you get your first menstrual period? *</span>
+          <span class="lang-hi">28. आपको किस उम्र में अपना पहला मासिक धर्म (Period) आया था? *</span>
+        </label>
         <input type="text" id="periodAge" name="periodAge">
       </div>
 
       <div class="form-group">
-        <label class="main-label">30. Are your menstrual cycles regular? (Your cycle is the number of days from the start of one period to the start of the next) *</label>
+        <label class="main-label">
+          <span class="lang-en">29. Are your menstrual cycles regular? (Your cycle is the number of days from the start of one period to the start of the next) *</span>
+          <span class="lang-hi">29. क्या आपके मासिक धर्म चक्र नियमित हैं? (आपका चक्र एक मासिक धर्म की शुरुआत से अगले मासिक धर्म की शुरुआत के दिनों की संख्या है) *</span>
+        </label>
         <div class="opt-container">
-          <label class="opt-row"><input type="radio" name="cycleRegularity" value="Yes"> Yes</label>
-          <label class="opt-row"><input type="radio" name="cycleRegularity" value="No"> No</label>
+          <label class="opt-row">
+            <input type="radio" name="cycleRegularity" value="Yes">
+            <span class="lang-en">Yes</span>
+            <span class="lang-hi">हाँ</span>
+          </label>
+          <label class="opt-row">
+            <input type="radio" name="cycleRegularity" value="No">
+            <span class="lang-en">No</span>
+            <span class="lang-hi">नहीं</span>
+          </label>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="main-label">31. Usual cycle length (Number of days): *</label>
+        <label class="main-label">
+          <span class="lang-en">30. Usual cycle length (Number of days): *</span>
+          <span class="lang-hi">30. सामान्य चक्र की लंबाई (दिनों की संख्या): *</span>
+        </label>
         <input type="text" id="cycleLength" name="cycleLength">
       </div>
 
       <div class="form-group">
-        <label class="main-label">32. Do you often experience delayed periods (>10 days)? *</label>
+        <label class="main-label">
+          <span class="lang-en">31. Do you often experience delayed periods (&gt;10 days)? *</span>
+          <span class="lang-hi">31. क्या आप अक्सर देर से मासिक धर्म (&gt;10 दिन) का अनुभव करते हैं? *</span>
+        </label>
         <div class="opt-container">
-          <label class="opt-row"><input type="radio" name="delayedPeriods" value="Yes"> Yes</label>
-          <label class="opt-row"><input type="radio" name="delayedPeriods" value="No"> No</label>
+          <label class="opt-row">
+            <input type="radio" name="delayedPeriods" value="Yes">
+            <span class="lang-en">Yes</span>
+            <span class="lang-hi">हाँ</span>
+          </label>
+          <label class="opt-row">
+            <input type="radio" name="delayedPeriods" value="No">
+            <span class="lang-en">No</span>
+            <span class="lang-hi">नहीं</span>
+          </label>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="main-label">33. Duration and Flow of Menstrual bleeding (Total No. of pads used per cycle) *</label>
+        <label class="main-label">
+          <span class="lang-en">32. Duration and Flow of Menstrual bleeding (Total No. of pads used per cycle) *</span>
+          <span class="lang-hi">32. मासिक धर्म के रक्तस्राव की अवधि और प्रवाह (प्रति चक्र उपयोग किए गए पैड की कुल संख्या) *</span>
+        </label>
         <div class="opt-container">
-          <label class="opt-row"><input type="radio" name="menstrualFlow" value="<3"> &lt;3</label>
-          <label class="opt-row"><input type="radio" name="menstrualFlow" value="3-5"> 3-5</label>
-          <label class="opt-row"><input type="radio" name="menstrualFlow" value="5-10"> 5-10</label>
-          <label class="opt-row"><input type="radio" name="menstrualFlow" value="10-15"> 10-15</label>
-          <label class="opt-row"><input type="radio" name="menstrualFlow" value=">15"> &gt;15</label>
+          <label class="opt-row">
+            <input type="radio" name="menstrualFlow" value="<3">
+            <span class="lang-en">&lt;3</span>
+            <span class="lang-hi">&lt;3</span>
+          </label>
+          <label class="opt-row">
+            <input type="radio" name="menstrualFlow" value="3-5">
+            <span class="lang-en">3-5</span>
+            <span class="lang-hi">3-5</span>
+          </label>
+          <label class="opt-row">
+            <input type="radio" name="menstrualFlow" value="5-10">
+            <span class="lang-en">5-10</span>
+            <span class="lang-hi">5-10</span>
+          </label>
+          <label class="opt-row">
+            <input type="radio" name="menstrualFlow" value="10-15">
+            <span class="lang-en">10-15</span>
+            <span class="lang-hi">10-15</span>
+          </label>
+          <label class="opt-row">
+            <input type="radio" name="menstrualFlow" value=">15">
+            <span class="lang-en">&gt;15</span>
+            <span class="lang-hi">&gt;15</span>
+          </label>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="main-label">34. Have you noticed significant change in growth and distribution of body hair in past one year? (Appearance of hair on the face, lower back, legs & arms) *</label>
+        <label class="main-label">
+          <span class="lang-en">33. Have you noticed significant change in growth and distribution of body hair in past one year? (Appearance of hair on the face, lower back, legs & arms) *</span>
+          <span class="lang-hi">33. क्या आपने पिछले एक वर्ष में शरीर के बालों के विकास और वितरण में महत्वपूर्ण बदलाव देखा है? (चेहरे, पीठ के निचले हिस्से, पैरों और बाहों पर बालों का आना) *</span>
+        </label>
         <div class="opt-container">
-          <label class="opt-row"><input type="radio" name="hairChange" value="Yes"> Yes</label>
-          <label class="opt-row"><input type="radio" name="hairChange" value="No"> No</label>
+          <label class="opt-row">
+            <input type="radio" name="hairChange" value="Yes">
+            <span class="lang-en">Yes</span>
+            <span class="lang-hi">हाँ</span>
+          </label>
+          <label class="opt-row">
+            <input type="radio" name="hairChange" value="No">
+            <span class="lang-en">No</span>
+            <span class="lang-hi">नहीं</span>
+          </label>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="main-label">35. Have you noticed significant increase in Acne on the face or body? *</label>
+        <label class="main-label">
+          <span class="lang-en">34. Have you noticed significant increase in Acne on the face or body? *</span>
+          <span class="lang-hi">34. क्या आपने चेहरे या शरीर पर मुंहासों में महत्वपूर्ण वृद्धि देखी है? *</span>
+        </label>
         <div class="opt-container">
-          <label class="opt-row"><input type="radio" name="acneIncrease" value="Yes"> Yes</label>
-          <label class="opt-row"><input type="radio" name="acneIncrease" value="No"> No</label>
+          <label class="opt-row">
+            <input type="radio" name="acneIncrease" value="Yes">
+            <span class="lang-en">Yes</span>
+            <span class="lang-hi">हाँ</span>
+          </label>
+          <label class="opt-row">
+            <input type="radio" name="acneIncrease" value="No">
+            <span class="lang-en">No</span>
+            <span class="lang-hi">नहीं</span>
+          </label>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="main-label">36. Are you suffering from PCOS/PCOD? *</label>
+        <label class="main-label">
+          <span class="lang-en">35. Are you suffering from PCOS/PCOD? *</span>
+          <span class="lang-hi">35. क्या आप पीसीओएस/पीसीओडी (PCOS/PCOD) से पीड़ित हैं? *</span>
+        </label>
         <div class="opt-container">
-          <label class="opt-row"><input type="radio" name="pcosStatus" value="Yes"> Yes</label>
-          <label class="opt-row"><input type="radio" name="pcosStatus" value="No"> No</label>
-          <label class="opt-row"><input type="radio" name="pcosStatus" value="Not sure"> Not sure</label>
+          <label class="opt-row">
+            <input type="radio" name="pcosStatus" value="Yes">
+            <span class="lang-en">Yes</span>
+            <span class="lang-hi">हाँ</span>
+          </label>
+          <label class="opt-row">
+            <input type="radio" name="pcosStatus" value="No">
+            <span class="lang-en">No</span>
+            <span class="lang-hi">नहीं</span>
+          </label>
+          <label class="opt-row">
+            <input type="radio" name="pcosStatus" value="Not sure">
+            <span class="lang-en">Not sure</span>
+            <span class="lang-hi">पक्का नहीं पता</span>
+          </label>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="main-label">37. Is there a family history of PCOS in mother or sister? *</label>
+        <label class="main-label">
+          <span class="lang-en">36. Is there a family history of PCOS in mother or sister? *</span>
+          <span class="lang-hi">36. क्या मां या बहन में पीसीओएस (PCOS) का पारिवारिक इतिहास है? *</span>
+        </label>
         <div class="opt-container">
-          <label class="opt-row"><input type="radio" name="familyPcos" value="Yes"> Yes</label>
-          <label class="opt-row"><input type="radio" name="familyPcos" value="No"> No</label>
-          <label class="opt-row"><input type="radio" name="familyPcos" value="Not sure"> Not sure</label>
+          <label class="opt-row">
+            <input type="radio" name="familyPcos" value="Yes">
+            <span class="lang-en">Yes</span>
+            <span class="lang-hi">हाँ</span>
+          </label>
+          <label class="opt-row">
+            <input type="radio" name="familyPcos" value="No">
+            <span class="lang-en">No</span>
+            <span class="lang-hi">नहीं</span>
+          </label>
+          <label class="opt-row">
+            <input type="radio" name="familyPcos" value="Not sure">
+            <span class="lang-en">Not sure</span>
+            <span class="lang-hi">पक्का नहीं पता</span>
+          </label>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="main-label">38. Do you have children? *</label>
+        <label class="main-label">
+          <span class="lang-en">37. Do you have children? *</span>
+          <span class="lang-hi">37. क्या आपके बच्चे हैं? *</span>
+        </label>
         <div class="opt-container">
-          <label class="opt-row"><input type="radio" name="hasChildren" value="Yes" onchange="evaluateBlockVisibility('child-block', this.value === 'Yes')"> Yes</label>
-          <label class="opt-row"><input type="radio" name="hasChildren" value="No" onchange="evaluateBlockVisibility('child-block', this.value === 'Yes')"> No</label>
+          <label class="opt-row">
+            <input type="radio" name="hasChildren" value="Yes" onchange="evaluateBlockVisibility('child-block', this.value === 'Yes')">
+            <span class="lang-en">Yes</span>
+            <span class="lang-hi">हाँ</span>
+          </label>
+          <label class="opt-row">
+            <input type="radio" name="hasChildren" value="No" onchange="evaluateBlockVisibility('child-block', this.value === 'Yes')">
+            <span class="lang-en">No</span>
+            <span class="lang-hi">नहीं</span>
+          </label>
         </div>
         <div class="conditional-wrapper" id="child-block">
-          <label class="main-label">39. If yes, age of youngest child? *</label>
+          <label class="main-label">
+            <span class="lang-en">38. If yes, age of youngest child? *</span>
+            <span class="lang-hi">38. यदि हाँ, तो सबसे छोटे बच्चे की आयु? *</span>
+          </label>
           <input type="text" id="youngestChildAge" name="youngestChildAge">
         </div>
       </div>
 
       <div class="form-group">
-        <label class="main-label">40. Have you ever had Abortion? *</label>
+        <label class="main-label">
+          <span class="lang-en">39. Have you ever had Abortion/Still birth? *</span>
+          <span class="lang-hi">39. क्या आपका कभी गर्भपात (Abortion) या मृत जन्म (Still birth) हुआ है? *</span>
+        </label>
         <div class="opt-container">
-          <label class="opt-row"><input type="radio" name="hadAbortion" value="Yes"> Yes</label>
-          <label class="opt-row"><input type="radio" name="hadAbortion" value="No"> No</label>
+          <label class="opt-row">
+            <input type="radio" name="hadAbortion" value="Yes">
+            <span class="lang-en">Yes</span>
+            <span class="lang-hi">हाँ</span>
+          </label>
+          <label class="opt-row">
+            <input type="radio" name="hadAbortion" value="No">
+            <span class="lang-en">No</span>
+            <span class="lang-hi">नहीं</span>
+          </label>
         </div>
       </div>
     </div>
 
-    <button type="submit" class="btn-submit">Submit Survey Data</button>
+    <button type="submit" class="btn-submit">
+      <span class="lang-en">Submit Survey Data</span>
+      <span class="lang-hi">सर्वेक्षण डेटा सबमिट करें</span>
+    </button>
   </form>
 
   <div id="view-success">
-    <h2 style="color: #1aa260;">✅ Survey Data Committed Successfully!</h2>
-    <p style="color:#5e5e5e; font-size:14px; margin-bottom:25px;">Your responses have been structuralized anonymously. Your verification lookup receipt is displayed below:</p>
+    <h2 style="color: #1aa260;">
+      <span class="lang-en">✅ Survey Data Committed Successfully!</span>
+      <span class="lang-hi">✅ सर्वेक्षण डेटा सफलतापूर्वक सबमिट हो गया!</span>
+    </h2>
+    <p style="color:#5e5e5e; font-size:14px; margin-bottom:25px;">
+      <span class="lang-en">Your responses have been structuralized anonymously. Your verification lookup receipt is displayed below:</span>
+      <span class="lang-hi">आपकी प्रतिक्रियाओं को गुमनाम रूप से सहेज लिया गया है। आपकी सत्यापन रसीद नीचे दिखाई गई है:</span>
+    </p>
     <div class="receipt-box" id="receiptToken">------</div>
-    <p style="color: #b06000; font-weight: 500; font-size:14px; background:#fef7e0; padding:10px; border-radius:6px;">⚠️ Verify this code matches your screen capture before leaving this web interface.</p>
+    <p style="color: #b06000; font-weight: 500; font-size:14px; background:#fef7e0; padding:10px; border-radius:6px;">
+      <span class="lang-en">⚠️ Verify this code matches your screen capture before leaving this web interface.</span>
+      <span class="lang-hi">⚠️ इस वेब इंटरफेस को छोड़ने से पहले सुनिश्चित करें कि यह कोड आपके स्क्रीनशॉट से मेल खाता है।</span>
+    </p>
   </div>
 
 </div>
 
 <script>
+  var selectedLang = 'en';
+
   window.onload = function() {
     google.script.run.withSuccessHandler(function(token) {
       document.getElementById('participantId').value = token;
       document.getElementById('view-loading').style.display = 'none';
-      document.getElementById('questionnaireForm').style.display = 'block';
+      document.getElementById('view-language').style.display = 'block';
     }).getNewToken();
   };
 
-  // function evaluateBlockVisibility(elementId, shouldShow) {
-  //   var wrapper = document.getElementById(elementId);
-  //   wrapper.style.display = shouldShow ? 'block' : 'none';
-  //   var fields = wrapper.querySelectorAll('select, input[type="text"], input[type="radio"]');
-  //   fields.forEach(function(field) {
-  //     if(field.id !== "customSubstance") { // Keep optional question 21.2 dynamic
-  //       field.required = shouldShow;
-  //     }
-  //   });
-  // }
-
-  //////// NEW CODE TO MANDATE CHECKBOXES TOO //////
-  function evaluateBlockVisibility(elementId, shouldShow) {
-    var wrapper = document.getElementById(elementId);
-    wrapper.style.display = shouldShow ? 'block' : 'none';
+  function goToConsent() {
+    selectedLang = document.getElementById('langSelect').value;
+    document.body.className = 'lang-' + selectedLang;
     
-    // Target inputs, excluding checkboxes from standard HTML required validation
+    // Update all select options with bilingual content
+    document.querySelectorAll('option[data-en]').forEach(function(opt) {
+      opt.textContent = opt.getAttribute('data-' + selectedLang);
+    });
+    
+    document.getElementById('view-language').style.display = 'none';
+    document.getElementById('view-consent').style.display = 'block';
+    window.scrollTo(0,0);
+  }
+
+  function goBackToLanguage() {
+    document.getElementById('view-consent').style.display = 'none';
+    document.getElementById('view-language').style.display = 'block';
+    window.scrollTo(0,0);
+  }
+
+  function validateConsentAndProceed() {
+    var consentOption = document.querySelector('input[name="consentOption"]:checked');
+    if (!consentOption) {
+      alert(selectedLang === 'en' ? "Please select an option to proceed." : "आगे बढ़ने के लिए कृपया एक विकल्प चुनें।");
+      return;
+    }
+    
+    if (consentOption.value === 'agree') {
+      document.getElementById('consent-warning').style.display = 'none';
+      document.getElementById('view-consent').style.display = 'none';
+      document.getElementById('questionnaireForm').style.display = 'block';
+      window.scrollTo(0,0);
+    } else {
+      document.getElementById('consent-warning').style.display = 'block';
+    }
+  }
+
+  function evaluatePhysicalActivity(value) {
+    var showDetails = (value && value !== 'Never');
+    var wrapper = document.getElementById('physical-activity-details-block');
+    wrapper.style.display = showDetails ? 'block' : 'none';
+    
+    // Set required flags on inputs
     var fields = wrapper.querySelectorAll('select, input[type="text"], input[type="radio"]');
     fields.forEach(function(field) {
-      if (!shouldShow) {
+      if (!showDetails) {
         field.required = false;
       } else {
-        // Specific inline condition rules for text boxes
-        if (field.id === "customSupplement") {
-          field.required = document.querySelector('input[value="Others"]').checked;
-        } else if (field.id === "customActivity") {
-          field.required = document.querySelector('.act-cb[value="Others"]').checked;
-        } else if (field.id === "customSubstance") {
-          field.required = false; // 21.2 is explicitly never mandatory [cite: 865]
+        if (field.id === "customActivity") {
+          field.required = wrapper.querySelector('.act-cb[value="Others"]').checked;
         } else {
           field.required = true;
         }
@@ -651,7 +1547,28 @@
     });
   }
 
-  // New Helper: Validates that at least one checkbox is selected in a visible group
+  function evaluateBlockVisibility(elementId, shouldShow) {
+    var wrapper = document.getElementById(elementId);
+    wrapper.style.display = shouldShow ? 'block' : 'none';
+    
+    var fields = wrapper.querySelectorAll('select, input[type="text"], input[type="radio"]');
+    fields.forEach(function(field) {
+      if (!shouldShow) {
+        field.required = false;
+      } else {
+        if (field.id === "customSupplement") {
+          field.required = document.querySelector('input[value="Others"]').checked;
+        } else if (field.id === "customActivity") {
+          field.required = document.querySelector('.act-cb[value="Others"]').checked;
+        } else if (field.id === "customSubstance") {
+          field.required = false;
+        } else {
+          field.required = true;
+        }
+      }
+    });
+  }
+
   function validateCheckboxGroup(wrapperId, checkboxClass, groupLabel) {
     var wrapper = document.getElementById(wrapperId);
     if (wrapper.style.display === 'block' || wrapper.style.display === '') {
@@ -659,78 +1576,29 @@
       var checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
       
       if (checkedCount === 0) {
-        alert("Please select at least one option for: " + groupLabel);
+        alert(selectedLang === 'en' ? "Please select at least one option for: " + groupLabel : "कृपया कम से कम एक विकल्प चुनें: " + groupLabel);
         return false;
       }
     }
     return true;
   }
 
-  // function executeDataCommit(e) {
-  //   e.preventDefault();
-
-  //   // 1. Run custom checkbox validations before submitting
-  //   if (!validateCheckboxGroup('supplements-block', 'supp-cb', 'Supplement Specifications [10.1]')) return;
-  //   if (!validateCheckboxGroup('chronic-block', 'chr-cb', 'Chronic Illness Specifications [22.1]')) return;
-
-  //   document.getElementById('questionnaireForm').style.display = 'none';
-  //   document.getElementById('view-loading').querySelector('h3').innerText = "Encrypting Data Streams...";
-  //   document.getElementById('view-loading').style.display = 'block';
-    
-  //   var form = document.getElementById('questionnaireForm');
-  //   var payload = {};
-    
-  //   var elements = form.querySelectorAll('input, select');
-  //   elements.forEach(function(el) {
-  //     if(!el.name) return;
-  //     if(el.type === 'radio' && !el.checked) return;
-      
-  //     if(el.type === 'checkbox') {
-  //       if(el.checked) {
-  //         var cls = el.className;
-  //         if(!payload[cls]) payload[cls] = [];
-  //         payload[cls].push(el.value);
-  //       }
-  //     } else {
-  //       payload[el.name] = el.value;
-  //     }
-  //   });
-    
-  //   // Package array fields into flat strings before transmission
-  //   if(payload['supp-cb']) payload.supplementDetails = payload['supp-cb'].join(', ');
-  //   if(payload['act-cb'])  payload.activityTypes = payload['act-cb'].join(', ');
-  //   if(payload['sub-cb'])  payload.otherSubstances = payload['sub-cb'].join(', ');
-  //   if(payload['chr-cb'])  payload.chronicIllnessDetails = payload['chr-cb'].join(', ');
-  //   if(payload['fam-cb'])  payload.familyHistory = payload['fam-cb'].join(', ');
-
-  //   google.script.run.withSuccessHandler(function(res) {
-  //     document.getElementById('view-loading').style.display = 'none';
-  //     if(res === "SUCCESS") {
-  //       document.getElementById('receiptToken').innerText = document.getElementById('participantId').value;
-  //       document.getElementById('view-success').style.display = 'block';
-  //       window.scrollTo(0,0);
-  //     } else {
-  //       alert("Transaction Failed: " + res);
-  //       document.getElementById('questionnaireForm').style.display = 'block';
-  //     }
-  //   }).processFormData(payload);
-  // }
-
   function executeDataCommit(e) {
     e.preventDefault();
 
     // 1. Run custom checkbox validations before submitting
     if (!validateCheckboxGroup('supplements-block', 'supp-cb', 'Supplement Specifications [10.1]')) return;
+    if (!validateCheckboxGroup('physical-activity-details-block', 'act-cb', 'Physical Activity Types [12.1]')) return;
     if (!validateCheckboxGroup('chronic-block', 'chr-cb', 'Chronic Illness Specifications [22.1]')) return;
 
     document.getElementById('questionnaireForm').style.display = 'none';
-    document.getElementById('view-loading').querySelector('h3').innerText = "Encrypting Data Streams...";
+    document.getElementById('view-loading').querySelector('h3').innerText = selectedLang === 'en' ? "Encrypting Data Streams..." : "डेटा सुरक्षित किया जा रहा है...";
     document.getElementById('view-loading').style.display = 'block';
     
     var form = document.getElementById('questionnaireForm');
     var payload = {};
     
-    // 2. FIXED: Correctly capture both standard fields and multi-select checkbox arrays
+    // 2. Capture fields correctly (handling radio, checkboxes and multi-select dropdowns)
     var elements = form.querySelectorAll('input, select');
     elements.forEach(function(el) {
       if(!el.name) return;
@@ -739,16 +1607,23 @@
         if(el.checked) payload[el.name] = el.value;
       } else if(el.type === 'checkbox') {
         if(el.checked) {
-          // Group checked values by their native 'name' attribute array
           if(!payload[el.name]) payload[el.name] = [];
           payload[el.name].push(el.value);
         }
+      } else if(el.type === 'select-multiple') {
+        var selectedVals = [];
+        for(var i = 0; i < el.options.length; i++) {
+          if(el.options[i].selected) {
+            selectedVals.push(el.options[i].value);
+          }
+        }
+        payload[el.name] = selectedVals.join(', ');
       } else {
         payload[el.name] = el.value;
       }
     });
     
-    // 3. FIXED: Convert arrays to comma-separated strings matching the precise sheet columns
+    // 3. Convert arrays to comma-separated strings matching the precise sheet columns
     payload.supplementDetails     = payload.customSupplementGroup ? payload.customSupplementGroup.join(', ') : 'None';
     payload.activityTypes         = payload.customActivityGroup ? payload.customActivityGroup.join(', ') : 'None';
     payload.otherSubstances       = payload.customSubstanceGroup ? payload.customSubstanceGroup.join(', ') : 'None';
@@ -769,8 +1644,6 @@
     }).processFormData(payload);
   }
 
-
-  ///////CHECKBOX MANDATE ENDS HERE ////////
   function evaluateFemaleTrack(gender) {
     var container = document.getElementById('gated-female-track');
     var isFemale = (gender === 'Female');
@@ -783,7 +1656,6 @@
       }
     });
   }
-  
 </script>
 </body>
 </html>

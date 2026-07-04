@@ -21,7 +21,7 @@ function setFormColumnHeaders() {
     "Unintentional Weight Loss", "Proactive Health Checkup", "Menarche Age", "Cycle Regularity", 
     "Cycle Length", "Delayed Periods Experience", "Menstrual Bleeding Flow", "Body Hair Changes", 
     "Acne Severity Increase", "PCOS Diagnosis Status", "Family History of PCOS", "Maternity Profile", 
-    "Youngest Child Age", "History of Abortion"
+    "Youngest Child Age", "History of Abortion/Still birth"
   ];
   
   // Clear any existing contents on the first row and drop the clean matrix headers

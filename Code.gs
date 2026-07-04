@@ -54,6 +54,7 @@ function processFormData(formData) {
       formData.tobaccoMode || 'N/A', formData.tobaccoFreq || 'N/A', formData.tobaccoQty || 'N/A',
       formData.alcoholUse,
       formData.alcoholType || 'N/A', formData.alcoholQty || 'N/A', formData.alcoholSessions || 'N/A',
+      formData.substanceProfile || 'N/A',
       formData.otherSubstances || 'N/A',
       formData.customSubstance || 'N/A',
       formData.chronicIllness,
