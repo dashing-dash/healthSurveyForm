@@ -72,6 +72,7 @@ function processFormData(formData) {
       formData.cycleRegularity || 'N/A',
       formData.cycleLength || 'N/A',
       formData.delayedPeriods || 'N/A',
+      formData.missedPeriods || 'N/A',
       formData.menstrualFlow || 'N/A',
       formData.hairChange || 'N/A',
       formData.acneIncrease || 'N/A',

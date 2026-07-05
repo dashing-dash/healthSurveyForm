@@ -1,0 +1,43 @@
+1) Ask for language preference in the form of a bilingual question:
+Dear participant, Do you want to proceed in: English/Hindi?
+प्रिय प्रतिभागी, क्या आप आगे अंग्रेज़ी में जारी रखना चाहते हैं या हिंदी में?
+Option given in dropdown and a button of Next to be provided, which moves to the consent page, to be chosen based on language selected.
+2) Add consent form of the language participant has chosen and further questions to be proceeded in the language selected by participant (we have to create html content in hindi too) 
+3) Section 3 Q12: If person clicks Never, then Q 12.1 and 13 should disappear
+4) Q 13 to be changed to Q12.2 and further sequencing should be changed likewise
+5) In Q 19: If user selects former or yes, Create a new Q 19.1: Create a drop-down of mode of intake:
+Smoking/Chewing/Sniffing and should have multiple selection options
+Create New Q 19.2: Drop-down for frequency:
+<1/day, 1-5/day, 5-10/day, >10/day
+6) Q20.2 Drop-down: 30 ml, 60 ml, 90 ml,120 ml, 180 ml, >180 ml
+Q 20.3 Drop-down: 1, 2, 3, 4, >4
+7) Q 22.2: radiobox : Yes/No(make sure input is being captured for excel sheet)
+And change question to : Are you undergoing treatment for that? (Remove Since When)
+8) Q 40: Question to be changed to : Have you ever had Abortion/Still birth? (add Still birth) and with radiobox of Yes/No(make sure input is being captured for excel sheet)
+
+
+
+
+4/07
+
+The following correction are needed-
+In English version -
+1. In consent form please replace "Agree Line" as "I have carefully read & understood the above information and voluntarily agree to participate"
+2. In consent form Please replace "Not Agree Line" as "I do not agree to participate"
+3. Question 14.3 "Sleep" should be replaced to "Before Going to Bed"
+4. Question 15 (In HRS) should be replaced to (Hours)
+5. Question 16 "After sleep" should be replaced to "After waking up"
+6. Question 19.1 should have checkbox with multiple selection and an additional option of "Others."
+7. Question 19.2 should be as "Consumed amount per session in ML."
+8. Question 19.3 should have one extra additional option of "< 1"
+9. Question 27 "Get" is to be replaced "Got"
+10. Add new Question after Question 31 as "do you often miss period" Option "Yes" and "No"
+ 
+
+In Hindi version -
+1. Question 19.1 should have dropdown with multiple selection and an additional option of "अन्य"
+2. Question 19.2 please remove "Peg/" to "ML."
+3. Question 19.3 should have one extra additional option of "< 1"
+4. In Question 22 add "First Degree Relative" at appropriate
+5. In Question 23 add "First Degree Reiative" at appropriate
+6. Add new Question after Question 31 as "क्या आपका मासिक धर्म अक्सर छूट जाता है?" with options "हाँ" and "नहीं".

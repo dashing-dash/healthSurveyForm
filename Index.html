@@ -170,7 +170,7 @@
           <li>मैंने ऊपर दी गई सभी जानकारी पढ़ एवं समझ ली है।</li>
           <li>मैं समझता/समझती हूँ कि इस अध्ययन में मेरी सहभागिता पूर्णतः स्वैच्छिक है।</li>
           <li>मैं समझता/समझती हूँ कि मेरी सभी प्रतिक्रियाएँ गुमनाम रहेंगी तथा उनका उपयोग केवल अनुसंधान उद्देश्यों के लिए किया जाएगा।</li>
-          <li>मैं समझता/समझती हूँ कि इस अध्ययन के अंतर्गत मेरा रक्तचाप मापा जाएगा, उपवास रक्त शर्करा एवं HbA1c की जाँच हेतु मेरा एक छोटा रक्त नमूना लिया जाएगा तथा संक्षिप्त शारीरिक परीक्षण किया जाएगा।</li>
+          <li>मैं समझता/समझती हूँ कि इस अध्ययन के अंतर्गत मेरा रक्तचाप मापा जाएगा, उपवास रक्त शर्करा, HbA1c तथा अन्य जाँचो हेतु मेरा एक छोटा रक्त नमूना लिया जाएगा तथा संक्षिप्त शारीरिक परीक्षण किया जाएगा।</li>
           <li>मैं अपनी स्वेच्छा से इस अध्ययन में भाग लेने के लिए सहमति प्रदान करता/करती हूँ।</li>
         </ul>
       </div>
@@ -184,12 +184,12 @@
       <div class="opt-container">
         <label class="opt-row">
           <input type="radio" name="consentOption" value="agree">
-          <span class="lang-en" style="font-weight: 500; color: #1aa260;">I carefully read all above and agree voluntarily to participate</span>
+          <span class="lang-en" style="font-weight: 500; color: #1aa260;">I have carefully read & understood the above information and voluntarily agree to participate</span>
           <span class="lang-hi" style="font-weight: 500; color: #1aa260;">मैंने उपरोक्त सभी जानकारी ध्यानपूर्वक पढ़ ली है तथा अपनी स्वेच्छा से इस अध्ययन में भाग लेने के लिए सहमत हूँ।</span>
         </label>
         <label class="opt-row">
           <input type="radio" name="consentOption" value="disagree">
-          <span class="lang-en" style="font-weight: 500; color: #d93025;">I Do Not Agree</span>
+          <span class="lang-en" style="font-weight: 500; color: #d93025;">I do not agree to participate</span>
           <span class="lang-hi" style="font-weight: 500; color: #d93025;">मैं इस अध्ययन में भाग लेने के लिए सहमत नहीं हूँ।</span>
         </label>
       </div>
@@ -341,12 +341,12 @@
         <label class="opt-row">
           <input type="radio" name="dietType" value="Vegan Diet" required onchange="evaluateBlockVisibility('m-diet-block', this.value === 'Mixed (Vegetarian + Non-Vegetarian)')">
           <span class="lang-en">Vegan Diet</span>
-          <span class="lang-hi">शाकाहारी (Vegan) आहार</span>
+          <span class="lang-hi">पूर्ण शाकाहारी (Vegan) आहार</span>
         </label>
         <label class="opt-row">
           <input type="radio" name="dietType" value="Vegetarian" onchange="evaluateBlockVisibility('m-diet-block', this.value === 'Mixed (Vegetarian + Non-Vegetarian)')">
           <span class="lang-en">Vegetarian</span>
-          <span class="lang-hi">शाकाहारी (Vegetarian)</span>
+          <span class="lang-hi">शाकाहारी एवं दुग्धाहारी(Vegetarian)</span>
         </label>
         <label class="opt-row">
           <input type="radio" name="dietType" value="Eggetarian" onchange="evaluateBlockVisibility('m-diet-block', this.value === 'Mixed (Vegetarian + Non-Vegetarian)')">
@@ -448,7 +448,7 @@
     <div class="form-group">
       <label class="main-label">
         <span class="lang-en">10. Are you taking any dietary supplements? *</span>
-        <span class="lang-hi">10. क्या आप कोई आहार सप्लीमेंट ले रहे हैं? *</span>
+        <span class="lang-hi">10. क्या आप कोई आहार सप्लीमेंट(Diet Supplement) ले रहे हैं? *</span>
       </label>
       <div class="opt-container">
         <label class="opt-row">
@@ -676,7 +676,7 @@
 
     <div class="form-group">
       <label class="main-label">
-        <span class="lang-en">14.3 Average screen time before sleep *</span>
+        <span class="lang-en">14.3 Average screen time before going to bed *</span>
         <span class="lang-hi">14.3 सोने से पहले औसत स्क्रीन समय *</span>
       </label>
       <select name="sleepScreenTime" required>
@@ -690,7 +690,7 @@
 
     <div class="form-group">
       <label class="main-label">
-        <span class="lang-en">15. Average sleep duration per night (in Hrs.) *</span>
+        <span class="lang-en">15. Average sleep duration per night (Hours) *</span>
         <span class="lang-hi">15. प्रति रात नींद की औसत अवधि (घंटों में) *</span>
       </label>
       <select name="sleepDuration" required>
@@ -708,7 +708,7 @@
 
     <div class="form-group">
       <label class="main-label">
-        <span class="lang-en">16. Do you feel refreshed after sleep? *</span>
+        <span class="lang-en">16. Do you feel refreshed after waking up? *</span>
         <span class="lang-hi">16. क्या आप नींद के बाद तरोताजा महसूस करते हैं? *</span>
       </label>
       <select name="feelRefreshed" required>
@@ -867,15 +867,58 @@
       <div class="conditional-wrapper" id="alcohol-block">
         <div class="form-group">
           <label class="main-label">
-            <span class="lang-en">19.1 Type of Alcohol consumption (Beer/Rum/Vodka/Whiskey/Gin/Wine): *</span>
-            <span class="lang-hi">19.1 शराब के सेवन का प्रकार (बीयर/रम/वोदका/व्हिस्की/जिन/वाइन): *</span>
+            <span class="lang-en">19.1 Type of Alcohol consumption (You may select more than one): *</span>
+            <span class="lang-hi">19.1 शराब के सेवन का प्रकार (आप एक से अधिक चुन सकते हैं): *</span>
           </label>
-          <input type="text" id="alcoholType" name="alcoholType">
+          <div class="opt-container">
+            <label class="opt-row">
+              <input type="checkbox" name="customAlcoholGroup" class="alc-cb" value="Beer">
+              <span class="lang-en">Beer</span>
+              <span class="lang-hi">बीयर (Beer)</span>
+            </label>
+            <label class="opt-row">
+              <input type="checkbox" name="customAlcoholGroup" class="alc-cb" value="Rum">
+              <span class="lang-en">Rum</span>
+              <span class="lang-hi">रम (Rum)</span>
+            </label>
+            <label class="opt-row">
+              <input type="checkbox" name="customAlcoholGroup" class="alc-cb" value="Vodka">
+              <span class="lang-en">Vodka</span>
+              <span class="lang-hi">वोदका (Vodka)</span>
+            </label>
+            <label class="opt-row">
+              <input type="checkbox" name="customAlcoholGroup" class="alc-cb" value="Whiskey">
+              <span class="lang-en">Whiskey</span>
+              <span class="lang-hi">व्हिस्की (Whiskey)</span>
+            </label>
+            <label class="opt-row">
+              <input type="checkbox" name="customAlcoholGroup" class="alc-cb" value="Gin">
+              <span class="lang-en">Gin</span>
+              <span class="lang-hi">जिन (Gin)</span>
+            </label>
+            <label class="opt-row">
+              <input type="checkbox" name="customAlcoholGroup" class="alc-cb" value="Wine">
+              <span class="lang-en">Wine</span>
+              <span class="lang-hi">वाइन (Wine)</span>
+            </label>
+            <label class="opt-row">
+              <input type="checkbox" name="customAlcoholGroup" class="alc-cb" value="Others" onchange="evaluateBlockVisibility('alc-other-block', this.checked)">
+              <span class="lang-en">Others</span>
+              <span class="lang-hi">अन्य (Others)</span>
+            </label>
+          </div>
+          <div class="form-group" id="alc-other-block" style="display:none; margin-top:12px;">
+            <label class="main-label">
+              <span class="lang-en">19.1.1 If others (please specify): *</span>
+              <span class="lang-hi">19.1.1 यदि अन्य (कृपया निर्दिष्ट करें): *</span>
+            </label>
+            <input type="text" id="customAlcohol" name="customAlcohol">
+          </div>
         </div>
         <div class="form-group">
           <label class="main-label">
-            <span class="lang-en">19.2 Consumption amount per session (Pegs/ml): *</span>
-            <span class="lang-hi">19.2 प्रति सत्र खपत की मात्रा (Pegs/ml): *</span>
+            <span class="lang-en">19.2 Consumed amount per session in ML: *</span>
+            <span class="lang-hi">19.2 प्रति सत्र खपत की मात्रा (ML): *</span>
           </label>
           <select name="alcoholQty" id="alcoholQty">
             <option value="" data-en="Select Amount" data-hi="मात्रा चुनें">Select Amount</option>
@@ -894,6 +937,7 @@
           </label>
           <select name="alcoholSessions" id="alcoholSessions">
             <option value="" data-en="Select Sessions" data-hi="सत्र चुनें">Select Sessions</option>
+            <option value="< 1" data-en="< 1" data-hi="< 1">&lt; 1</option>
             <option value="1" data-en="1" data-hi="1">1</option>
             <option value="2" data-en="2" data-hi="2">2</option>
             <option value="3" data-en="3" data-hi="3">3</option>
@@ -1076,7 +1120,7 @@
     <div class="form-group">
       <label class="main-label">
         <span class="lang-en">22. Family history of the following diseases in first degree relative *</span>
-        <span class="lang-hi">22. प्रथम श्रेणी के रिश्तेदार में निम्नलिखित बीमारियों का पारिवारिक इतिहास *</span>
+        <span class="lang-hi">22. प्रथम श्रेणी के रिश्तेदार (First Degree Relative) में निम्नलिखित बीमारियों का पारिवारिक इतिहास *</span>
       </label>
       <div class="opt-container">
         <label class="opt-row">
@@ -1127,7 +1171,7 @@
     <div class="form-group">
       <label class="main-label">
         <span class="lang-en">23. Any history of death in first degree relative because of heart attack/stroke (Paralysis)/cancer *</span>
-        <span class="lang-hi">23. हृदय घात/स्ट्रोक (लकवा)/कैंसर के कारण प्रथम श्रेणी के रिश्तेदार की मृत्यु का कोई इतिहास *</span>
+        <span class="lang-hi">23. हृदय घात/स्ट्रोक (लकवा)/कैंसर के कारण प्रथम श्रेणी के रिश्तेदार (First Degree Relative) की मृत्यु का कोई इतिहास *</span>
       </label>
       <div class="opt-container">
         <label class="opt-row">
@@ -1212,7 +1256,7 @@
 
     <div class="form-group">
       <label class="main-label">
-        <span class="lang-en">27. Have you ever proactively get your health checkup done in past one year without any symptoms? *</span>
+        <span class="lang-en">27. Have you ever proactively got your health checkup done in past one year without any symptoms? *</span>
         <span class="lang-hi">27. क्या आपने पिछले एक वर्ष में बिना किसी लक्षण के सक्रिय रूप से अपना स्वास्थ्य परीक्षण कराया है? *</span>
       </label>
       <div class="opt-container">
@@ -1273,7 +1317,7 @@
       <div class="form-group">
         <label class="main-label">
           <span class="lang-en">31. Do you often experience delayed periods (&gt;10 days)? *</span>
-          <span class="lang-hi">31. क्या आप अक्सर देर से मासिक धर्म (&gt;10 दिन) का अनुभव करते हैं? *</span>
+          <span class="lang-hi">31. क्या आपके मासिक धर्म में अक्सर 10 दिनों से अधिक की देरी होती है? *</span>
         </label>
         <div class="opt-container">
           <label class="opt-row">
@@ -1291,8 +1335,27 @@
 
       <div class="form-group">
         <label class="main-label">
-          <span class="lang-en">32. Duration and Flow of Menstrual bleeding (Total No. of pads used per cycle) *</span>
-          <span class="lang-hi">32. मासिक धर्म के रक्तस्राव की अवधि और प्रवाह (प्रति चक्र उपयोग किए गए पैड की कुल संख्या) *</span>
+          <span class="lang-en">32. Do you often miss period? *</span>
+          <span class="lang-hi">32. क्या आपका मासिक धर्म अक्सर छूट जाता है? *</span>
+        </label>
+        <div class="opt-container">
+          <label class="opt-row">
+            <input type="radio" name="missedPeriods" value="Yes">
+            <span class="lang-en">Yes</span>
+            <span class="lang-hi">हाँ</span>
+          </label>
+          <label class="opt-row">
+            <input type="radio" name="missedPeriods" value="No">
+            <span class="lang-en">No</span>
+            <span class="lang-hi">नहीं</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="main-label">
+          <span class="lang-en">33. Duration and Flow of Menstrual bleeding (Total No. of pads used per cycle) *</span>
+          <span class="lang-hi">33. मासिक धर्म के रक्तस्राव की अवधि और प्रवाह (प्रति चक्र उपयोग किए गए पैड की कुल संख्या) *</span>
         </label>
         <div class="opt-container">
           <label class="opt-row">
@@ -1325,8 +1388,8 @@
 
       <div class="form-group">
         <label class="main-label">
-          <span class="lang-en">33. Have you noticed significant change in growth and distribution of body hair in past one year? (Appearance of hair on the face, lower back, legs & arms) *</span>
-          <span class="lang-hi">33. क्या आपने पिछले एक वर्ष में शरीर के बालों के विकास और वितरण में महत्वपूर्ण बदलाव देखा है? (चेहरे, पीठ के निचले हिस्से, पैरों और बाहों पर बालों का आना) *</span>
+          <span class="lang-en">34. Have you noticed significant change in growth and distribution of body hair in past one year? (Appearance of hair on the face, lower back, legs & arms) *</span>
+          <span class="lang-hi">34. क्या आपने पिछले एक वर्ष में शरीर के बालों के विकास और वितरण में महत्वपूर्ण बदलाव देखा है? (चेहरे, पीठ के निचले हिस्से, पैरों और बाहों पर बालों का आना) *</span>
         </label>
         <div class="opt-container">
           <label class="opt-row">
@@ -1344,8 +1407,8 @@
 
       <div class="form-group">
         <label class="main-label">
-          <span class="lang-en">34. Have you noticed significant increase in Acne on the face or body? *</span>
-          <span class="lang-hi">34. क्या आपने चेहरे या शरीर पर मुंहासों में महत्वपूर्ण वृद्धि देखी है? *</span>
+          <span class="lang-en">35. Have you noticed significant increase in Acne on the face or body? *</span>
+          <span class="lang-hi">35. क्या आपने चेहरे या शरीर पर मुंहासों में महत्वपूर्ण वृद्धि देखी है? *</span>
         </label>
         <div class="opt-container">
           <label class="opt-row">
@@ -1363,8 +1426,8 @@
 
       <div class="form-group">
         <label class="main-label">
-          <span class="lang-en">35. Are you suffering from PCOS/PCOD? *</span>
-          <span class="lang-hi">35. क्या आप पीसीओएस/पीसीओडी (PCOS/PCOD) से पीड़ित हैं? *</span>
+          <span class="lang-en">36. Are you suffering from PCOS/PCOD? *</span>
+          <span class="lang-hi">36. क्या आप पीसीओएस/पीसीओडी (PCOS/PCOD) से पीड़ित हैं? *</span>
         </label>
         <div class="opt-container">
           <label class="opt-row">
@@ -1387,8 +1450,8 @@
 
       <div class="form-group">
         <label class="main-label">
-          <span class="lang-en">36. Is there a family history of PCOS in mother or sister? *</span>
-          <span class="lang-hi">36. क्या मां या बहन में पीसीओएस (PCOS) का पारिवारिक इतिहास है? *</span>
+          <span class="lang-en">37. Is there a family history of PCOS in mother or sister? *</span>
+          <span class="lang-hi">37. क्या मां या बहन में पीसीओएस (PCOS) का पारिवारिक इतिहास है? *</span>
         </label>
         <div class="opt-container">
           <label class="opt-row">
@@ -1411,8 +1474,8 @@
 
       <div class="form-group">
         <label class="main-label">
-          <span class="lang-en">37. Do you have children? *</span>
-          <span class="lang-hi">37. क्या आपके बच्चे हैं? *</span>
+          <span class="lang-en">38. Do you have children? *</span>
+          <span class="lang-hi">38. क्या आपके बच्चे हैं? *</span>
         </label>
         <div class="opt-container">
           <label class="opt-row">
@@ -1428,8 +1491,8 @@
         </div>
         <div class="conditional-wrapper" id="child-block">
           <label class="main-label">
-            <span class="lang-en">38. If yes, age of youngest child? *</span>
-            <span class="lang-hi">38. यदि हाँ, तो सबसे छोटे बच्चे की आयु? *</span>
+            <span class="lang-en">39. If yes, age of youngest child? *</span>
+            <span class="lang-hi">39. यदि हाँ, तो सबसे छोटे बच्चे की आयु? *</span>
           </label>
           <input type="text" id="youngestChildAge" name="youngestChildAge">
         </div>
@@ -1437,8 +1500,8 @@
 
       <div class="form-group">
         <label class="main-label">
-          <span class="lang-en">39. Have you ever had Abortion/Still birth? *</span>
-          <span class="lang-hi">39. क्या आपका कभी गर्भपात (Abortion) या मृत जन्म (Still birth) हुआ है? *</span>
+          <span class="lang-en">40. Have you ever had Abortion/Still birth? *</span>
+          <span class="lang-hi">40. क्या आपका कभी गर्भपात (Abortion) या मृत जन्म (Still birth) हुआ है? *</span>
         </label>
         <div class="opt-container">
           <label class="opt-row">
@@ -1557,9 +1620,11 @@
         field.required = false;
       } else {
         if (field.id === "customSupplement") {
-          field.required = document.querySelector('input[value="Others"]').checked;
+          field.required = document.querySelector('.supp-cb[value="Others"]').checked;
         } else if (field.id === "customActivity") {
           field.required = document.querySelector('.act-cb[value="Others"]').checked;
+        } else if (field.id === "customAlcohol") {
+          field.required = document.querySelector('.alc-cb[value="Others"]').checked;
         } else if (field.id === "customSubstance") {
           field.required = false;
         } else {
@@ -1589,6 +1654,7 @@
     // 1. Run custom checkbox validations before submitting
     if (!validateCheckboxGroup('supplements-block', 'supp-cb', 'Supplement Specifications [10.1]')) return;
     if (!validateCheckboxGroup('physical-activity-details-block', 'act-cb', 'Physical Activity Types [12.1]')) return;
+    if (!validateCheckboxGroup('alcohol-block', 'alc-cb', 'Alcohol Types [19.1]')) return;
     if (!validateCheckboxGroup('chronic-block', 'chr-cb', 'Chronic Illness Specifications [22.1]')) return;
 
     document.getElementById('questionnaireForm').style.display = 'none';
@@ -1629,6 +1695,15 @@
     payload.otherSubstances       = payload.customSubstanceGroup ? payload.customSubstanceGroup.join(', ') : 'None';
     payload.chronicIllnessDetails = payload.customChronicGroup ? payload.customChronicGroup.join(', ') : 'None';
     payload.familyHistory         = payload.customFamilyGroup ? payload.customFamilyGroup.join(', ') : 'None';
+
+    // Handle custom Alcohol specification grouping cleanly into alcoholType
+    var alcTypes = payload.customAlcoholGroup ? [...payload.customAlcoholGroup] : [];
+    var alcIdx = alcTypes.indexOf('Others');
+    if (alcIdx !== -1) {
+      var alcOtherVal = document.getElementById('customAlcohol').value.trim();
+      alcTypes[alcIdx] = 'Others (' + (alcOtherVal || 'N/A') + ')';
+    }
+    payload.alcoholType = alcTypes.length > 0 ? alcTypes.join(', ') : 'None';
 
     // Send payload safely to Code.gs
     google.script.run.withSuccessHandler(function(res) {
