@@ -35,7 +35,15 @@
     .section-banner { font-size: 16px; font-weight: bold; color: #0b57d0; margin: 30px 0 15px 0; background: #e8f0fe; padding: 12px; border-radius: 8px; letter-spacing: 0.5px; }
     .form-group { margin-bottom: 22px; padding-bottom: 10px; }
     label.main-label { display: block; font-weight: 500; margin-bottom: 10px; color: #202124; font-size: 15px; line-height: 1.4; }
-    select, input[type="text"] { width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
+    select, input[type="text"], input[type="number"] { width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
     input[type="text"]:read-only { background-color: #f1f3f4; color: #185abc; font-weight: bold; text-align: center; letter-spacing: 2px; border: 2px dashed #aecbfa; }
     .opt-container { display: flex; flex-direction: column; gap: 8px; }
     .opt-row { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; color: #3c4043; cursor: pointer; padding: 6px; border-radius: 6px; }
@@ -727,57 +735,57 @@
     <div class="form-group">
       <label class="main-label">
         <span class="lang-en">17.1. In the last 1 month, how often have you felt that you were unable to control the important things in your life? *</span>
-        <span class="lang-hi">17.1. पिछले 1 महीने में, आपने कितनी बार महसूस किया कि आप अपने जीवन की महत्वपूर्ण चीजों को नियंत्रित करने में असमर्थ थे? *</span>
+        <span class="lang-hi">17.1. पिछले 30 दिनों में, आपने कितनी बार यह महसूस किया है कि आप अपने जीवन में महत्वपूर्ण चीजों का प्रबंधन करने में सक्षम नहीं थे? *</span>
       </label>
       <select name="pss1" required>
         <option value="" data-en="Select Response" data-hi="प्रतिक्रिया चुनें">Select Response</option>
         <option value="Never" data-en="Never" data-hi="कभी नहीं">Never</option>
         <option value="Almost Never" data-en="Almost Never" data-hi="लगभग कभी नहीं">Almost Never</option>
         <option value="Some times" data-en="Some times" data-hi="कभी-कभी">Some times</option>
-        <option value="Fairly often" data-en="Fairly often" data-hi="काफी बार">Fairly often</option>
-        <option value="Very often" data-en="Very often" data-hi="बहुत बार">Very often</option>
+        <option value="Fairly often" data-en="Fairly often" data-hi="अक्सर">Fairly often</option>
+        <option value="Very often" data-en="Very often" data-hi="ज्यादातर समय">Very often</option>
       </select>
     </div>
     <div class="form-group">
       <label class="main-label">
         <span class="lang-en">17.2. In the last 1 month, how often have you felt confident about your ability to handle your personal problems? (Reverse scored) *</span>
-        <span class="lang-hi">17.2. पिछले 1 महीने में, आपने अपनी व्यक्तिगत समस्याओं को संभालने की अपनी क्षमता के बारे में कितनी बार आश्वस्त महसूस किया है? (Reverse scored) *</span>
+        <span class="lang-hi">17.2. पिछले 30 दिनों में, आपने कितनी बार अपनी व्यक्तिगत समस्याओं का प्रबंधन करने की अपनी क्षमता के बारे में आश्वस्त महसूस किया है? *</span>
       </label>
       <select name="pss2" required>
         <option value="" data-en="Select Response" data-hi="प्रतिक्रिया चुनें">Select Response</option>
         <option value="Never" data-en="Never" data-hi="कभी नहीं">Never</option>
         <option value="Almost Never" data-en="Almost Never" data-hi="लगभग कभी नहीं">Almost Never</option>
         <option value="Some times" data-en="Some times" data-hi="कभी-कभी">Some times</option>
-        <option value="Fairly often" data-en="Fairly often" data-hi="काफी बार">Fairly often</option>
-        <option value="Very often" data-en="Very often" data-hi="बहुत बार">Very often</option>
+        <option value="Fairly often" data-en="Fairly often" data-hi="अक्सर">Fairly often</option>
+        <option value="Very often" data-en="Very often" data-hi="ज्यादातर समय">Very often</option>
       </select>
     </div>
     <div class="form-group">
       <label class="main-label">
         <span class="lang-en">17.3. In the last 1 month, how often have you felt that things were going your way? (Reverse scored) *</span>
-        <span class="lang-hi">17.3. पिछले 1 महीने में, आपने कितनी बार महसूस किया कि चीजें आपके अनुकूल चल रही थीं? (Reverse scored) *</span>
+        <span class="lang-hi">17.3. पिछले 30 दिनों में, आपने कितनी बार यह महसूस किया है कि चीजें आपके हिसाब से चल रही थीं? *</span>
       </label>
       <select name="pss3" required>
         <option value="" data-en="Select Response" data-hi="प्रतिक्रिया चुनें">Select Response</option>
         <option value="Never" data-en="Never" data-hi="कभी नहीं">Never</option>
         <option value="Almost Never" data-en="Almost Never" data-hi="लगभग कभी नहीं">Almost Never</option>
         <option value="Some times" data-en="Some times" data-hi="कभी-कभी">Some times</option>
-        <option value="Fairly often" data-en="Fairly often" data-hi="काफी बार">Fairly often</option>
-        <option value="Very often" data-en="Very often" data-hi="बहुत बार">Very often</option>
+        <option value="Fairly often" data-en="Fairly often" data-hi="अक्सर">Fairly often</option>
+        <option value="Very often" data-en="Very often" data-hi="ज्यादातर समय">Very often</option>
       </select>
     </div>
     <div class="form-group">
       <label class="main-label">
         <span class="lang-en">17.4. In the last 1 month, how often have you felt that difficulties were piling up so high that you could not overcome them? *</span>
-        <span class="lang-hi">17.4. पिछले 1 महीने में, आपने कितनी बार महसूस किया कि कठिनाइयां इतनी बढ़ गई थीं कि आप उन्हें पार नहीं कर सकते थे? *</span>
+        <span class="lang-hi">17.4. पिछले 30 दिनों में, आपने कितनी बार यह महसूस किया है कि मुश्किलें इतनी बढ़ती जा रही थीं कि आप उन पर काबू नहीं पा सके? *</span>
       </label>
       <select name="pss4" required>
         <option value="" data-en="Select Response" data-hi="प्रतिक्रिया चुनें">Select Response</option>
         <option value="Never" data-en="Never" data-hi="कभी नहीं">Never</option>
         <option value="Almost Never" data-en="Almost Never" data-hi="लगभग कभी नहीं">Almost Never</option>
         <option value="Some times" data-en="Some times" data-hi="कभी-कभी">Some times</option>
-        <option value="Fairly often" data-en="Fairly often" data-hi="काफी बार">Fairly often</option>
-        <option value="Very often" data-en="Very often" data-hi="बहुत बार">Very often</option>
+        <option value="Fairly often" data-en="Fairly often" data-hi="अक्सर">Fairly often</option>
+        <option value="Very often" data-en="Very often" data-hi="ज्यादातर समय">Very often</option>
       </select>
     </div>
 
@@ -837,7 +845,7 @@
             <span class="lang-en">18.3 Quantity per session: *</span>
             <span class="lang-hi">18.3 प्रति सत्र मात्रा: *</span>
           </label>
-          <input type="text" id="tobaccoQty" name="tobaccoQty">
+          <input type="number" min="0" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" id="tobaccoQty" name="tobaccoQty">
         </div>
       </div>
     </div>
@@ -1284,7 +1292,7 @@
           <span class="lang-en">28. At what age did you get your first menstrual period? *</span>
           <span class="lang-hi">28. आपको किस उम्र में अपना पहला मासिक धर्म (Period) आया था? *</span>
         </label>
-        <input type="text" id="periodAge" name="periodAge">
+        <input type="number" min="0" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" id="periodAge" name="periodAge">
       </div>
 
       <div class="form-group">
@@ -1311,7 +1319,7 @@
           <span class="lang-en">30. Usual cycle length (Number of days): *</span>
           <span class="lang-hi">30. सामान्य चक्र की लंबाई (दिनों की संख्या): *</span>
         </label>
-        <input type="text" id="cycleLength" name="cycleLength">
+        <input type="number" min="0" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" id="cycleLength" name="cycleLength">
       </div>
 
       <div class="form-group">
@@ -1494,7 +1502,7 @@
             <span class="lang-en">38.1. If yes, age of youngest child? *</span>
             <span class="lang-hi">38.1. यदि हाँ, तो सबसे छोटे बच्चे की आयु? *</span>
           </label>
-          <input type="text" id="youngestChildAge" name="youngestChildAge">
+          <input type="number" min="0" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" id="youngestChildAge" name="youngestChildAge">
         </div>
       </div>
 
@@ -1596,7 +1604,7 @@
     wrapper.style.display = showDetails ? 'block' : 'none';
     
     // Set required flags on inputs
-    var fields = wrapper.querySelectorAll('select, input[type="text"], input[type="radio"]');
+    var fields = wrapper.querySelectorAll('select, input[type="text"], input[type="number"], input[type="radio"]');
     fields.forEach(function(field) {
       if (!showDetails) {
         field.required = false;
@@ -1614,7 +1622,7 @@
     var wrapper = document.getElementById(elementId);
     wrapper.style.display = shouldShow ? 'block' : 'none';
     
-    var fields = wrapper.querySelectorAll('select, input[type="text"], input[type="radio"]');
+    var fields = wrapper.querySelectorAll('select, input[type="text"], input[type="number"], input[type="radio"]');
     fields.forEach(function(field) {
       if (!shouldShow) {
         field.required = false;
@@ -1724,7 +1732,7 @@
     var isFemale = (gender === 'Female');
     container.style.display = isFemale ? 'block' : 'none';
     
-    var inputs = container.querySelectorAll('input[type="text"], input[type="radio"]');
+    var inputs = container.querySelectorAll('input[type="text"], input[type="number"], input[type="radio"]');
     inputs.forEach(function(input) {
       if(!["youngestChildAge"].includes(input.id)) {
         input.required = isFemale;
